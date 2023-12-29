@@ -1,0 +1,23 @@
+<h2>Neues Projekt erstellen</h2>
+<form (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <mat-label>Projektname</mat-label>
+    <input matInput [(ngModel)]="project.name" name="name" required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Beschreibung</mat-label>
+    <textarea matInput [(ngModel)]="project.description" name="description"></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>AI-Modell</mat-label>
+    <mat-select [(ngModel)]="project.ai_model_id" name="ai_model_id">
+      <mat-option *ngFor="let model of aiModels" [value]="model.id">
+        {{model.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">Projekt erstellen</button>
+</form>

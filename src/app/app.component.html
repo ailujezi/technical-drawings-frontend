@@ -1,0 +1,14 @@
+<div>
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="1" [rowspan]="2">
+            <app-project-list (projectSelected)="onProjectSelected($event)"></app-project-list>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="4" [rowspan]="1">
+            <app-project-detail [selectedProject]="selectedProject"></app-project-detail>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>
+
+<router-outlet></router-outlet>
+
+  
