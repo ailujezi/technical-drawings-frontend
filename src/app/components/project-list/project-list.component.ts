@@ -1,35 +1,28 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Project } from '../../interfaces/project';
-//import { ProjectService } from '../../services/project.service';
+import { ProjectService } from '../../services/project.service';
 import { CommonModule } from '@angular/common';
 
 import {MatCardModule} from '@angular/material/card'; 
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
+import {MatListModule} from '@angular/material/list'; 
 
-
-import projectList from '../../../assets/exampleProject.json';
 import { CreateProjectComponent } from '../create-project/create-project.component';
 
 @Component({
   selector: 'app-project-list',
   standalone: true,
-  imports: [ CommonModule, MatCardModule, MatButtonModule, MatDialogModule, CreateProjectComponent],
+  imports: [ CommonModule, MatCardModule, MatButtonModule, MatDialogModule, MatListModule, CreateProjectComponent],
   templateUrl: './project-list.component.html',
   styleUrl: './project-list.component.scss'
 })
 export class ProjectListComponent implements OnInit{
 
-  //constructor(private projectService: ProjectService) {}
+  constructor(public dialog: MatDialog, private projectService: ProjectService) {}
 
-  constructor(public dialog: MatDialog) {}
-
-
-  projects: Project[] = projectList; 
-
-  project: Project = projectList[0];
-
+  projects: Project[] = []; 
   
 
   @Output() projectSelected = new EventEmitter<Project>();
@@ -39,18 +32,16 @@ export class ProjectListComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    /*this.projectService.getProjects().subscribe((data: Project[]) => {
+    this.projectService.getProjects().subscribe((data: Project[]) => {
       this.projects = data;
-    });*/
-    console.log(this.project);
+    });
 
   }
 
   openCreateProjectDialog(): void {
-    console.log("huhu");
-  const dialogRef = this.dialog.open(CreateProjectComponent, {
-    width: '300px',
-    data: { /* daten übergeben*/ }
+    const dialogRef = this.dialog.open(CreateProjectComponent, {
+      width: '300px',
+      data: { /* daten übergeben*/ }
   });
 
   dialogRef.afterClosed().subscribe(result => {

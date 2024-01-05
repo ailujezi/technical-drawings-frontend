@@ -1,14 +1,17 @@
 [
     {
         "id" : 1,
-        "name" : "Krass"
+        "name" : "Krass",
+        "description" : "Krank"
     },
     {
         "id" : 2,
-        "name" : "Mega"
+        "name" : "Mega",
+        "description" : "Meeeeegoo"
     },
     {
         "id" : 3,
-        "name" : "Hammer"
+        "name" : "Hammer",
+        "description" : "Haaamiiiiii"
     }
 ]

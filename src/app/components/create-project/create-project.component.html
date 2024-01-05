@@ -1,5 +1,5 @@
-<h2>Neues Projekt erstellen</h2>
-<form (ngSubmit)="onSubmit()">
+<h2 class="marg">Neues Projekt</h2>
+<form (ngSubmit)="onSubmit()" class="create-project">
   <mat-form-field>
     <mat-label>Projektname</mat-label>
     <input matInput [(ngModel)]="project.name" name="name" required>
@@ -12,12 +12,12 @@
 
   <mat-form-field>
     <mat-label>AI-Modell</mat-label>
-    <mat-select [(ngModel)]="project.ai_model_id" name="ai_model_id">
-      <mat-option *ngFor="let model of aiModels" [value]="model.id">
+    <mat-select color="primary" [(ngModel)]="project.ai_model_id" name="ai_model_id" required="">
+      <mat-option *ngFor="let model of aiModels" [value]="model.id" matTooltip="{{model.description}}">
         {{model.name}}
       </mat-option>
     </mat-select>
   </mat-form-field>
 
-  <button mat-raised-button color="primary" type="submit">Projekt erstellen</button>
+  <button class="marg" mat-raised-button color="primary" type="submit">Projekt erstellen</button>
 </form>

@@ -1,11 +1,8 @@
-<button mat-raised-button color="primary" (click)="openCreateProjectDialog()">Neues Projekt</button>
-<ul>
-  <li *ngFor="let project of projects" (click)="selectProject(project)">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>{{ project.name }}</mat-card-title>
-        <mat-card-subtitle>{{ project.description }}</mat-card-subtitle>
-      </mat-card-header>
-    </mat-card>
-  </li>
-</ul>
+<button class="marg" mat-raised-button color="primary" (click)="openCreateProjectDialog()">Neues Projekt</button>
+
+<mat-list class="project-mat-list">
+  <mat-list-item *ngFor="let project of projects" (click)="selectProject(project)">
+    <span matListItemTitle >{{ project.name }}</span>
+    <span>{{ project.description }}</span>
+  </mat-list-item>
+</mat-list>

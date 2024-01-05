@@ -1,0 +1,33 @@
+
+<div class="register-container" style="text-align: center;">
+    <form (ngSubmit)="onRegister()">
+        <div>
+            <label>Name:</label>
+            <br>
+            <input type="text" [(ngModel)]="registerData.first_name" name="name" required>
+        </div>
+        <div>
+            <label>Lastname:</label>
+            <br>
+            <input type="password" [(ngModel)]="registerData.last_name" name="lastname" required>
+        </div>
+        <div>
+            <label>E-mail:</label>
+            <br>
+            <input type="email" [(ngModel)]="registerData.email" name="email" required>
+        </div>
+        <div>
+            <label>Username:</label>
+            <br>
+            <input type="text" [(ngModel)]="registerData.username" name="username" required>
+        </div>
+        <div>
+            <label>Password:</label>
+            <br>
+            <input type="password" [(ngModel)]="registerData.password" name="password" required>
+        </div>
+        <button mat-raised-button color="primary" type="submit">Anmelden</button>   
+    </form>
+    <br>
+    <a (click)="goToLogin()" style="color: rgb(141, 174, 16)">Ich habe schon ein Konto!</a>
+</div>
