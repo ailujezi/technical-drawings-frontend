@@ -20,15 +20,15 @@ import { of } from 'rxjs'
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  loginData = { username: '',email: '', password: '' };
+  loginData = { username: '', password: '' };
 
   constructor(private router: Router, private authService: AuthService) {}
 
   onLogin(): void {
     this.authService.login(this.loginData).pipe(
       tap(response => {
-        sessionStorage.setItem('accessToken', response.data.access);
-        sessionStorage.setItem('refreshToken', response.data.refresh);
+        sessionStorage.setItem('accessToken', response.access);
+        sessionStorage.setItem('refreshToken', response.refresh);
 
         this.router.navigate(['/main']);
       }),

@@ -1,7 +1,23 @@
 <div *ngIf="selectedProject">
   <h1>{{ selectedProject.name }}</h1>
   <h2>{{ selectedProject.description}}</h2>
-  <app-file-upload></app-file-upload>
+  <div class="gallery-container">
+    <button *ngIf="images.length > 5" (click)="scrollLeft()" class="arrow left">&lt;</button>
+    <div class="gallery">
+      <div *ngFor="let image of images">
+        <img [attr.src]="image.image_url | secure | async" [alt]="image.name"/>
+      </div>
+    </div>
+    <button *ngIf="images.length > 5" (click)="scrollRight()" class="arrow right">&gt;</button>
+  </div>
+  <br>
+  <form (ngSubmit)="uploadImage()">
+    <input type="file" (change)="onFilesSelected($event)" multiple accept="image/*">
+    <button mat-raised-button color="accent" type="submit">
+      <mat-icon>cloud_upload</mat-icon>
+      Upload
+    </button>
+  </form>
 </div>
 
 

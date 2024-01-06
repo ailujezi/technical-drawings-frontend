@@ -1,4 +1,4 @@
-import { ProjectImage } from "./projectImage";
+import { Image } from "./image";
 
 export interface Project {
     id: number;
@@ -7,7 +7,7 @@ export interface Project {
     ai_model_id: number;
     status: string;
     images_nr: number;
-    images: ProjectImage[];
+    images: Image[];
     created_at: string;
     updated_at: string;
   }

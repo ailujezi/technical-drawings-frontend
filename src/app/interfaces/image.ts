@@ -1,4 +1,4 @@
-export interface ProjectImage {
+export interface Image {
     id: number;
     project_id: number;
     name: string;

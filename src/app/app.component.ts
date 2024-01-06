@@ -27,12 +27,10 @@ export class AppComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         response => {
-          localStorage.setItem('accessToken', response.data.access);
-          // Handle any additional response data
+          sessionStorage.setItem('accessToken', response.access);
         },
         error => {
-          // Handle error (e.g., redirect to login)
-          console.error(error);
+          console.error(error + "AppComponent");
         }
       );
       

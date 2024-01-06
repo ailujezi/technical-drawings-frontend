@@ -28,7 +28,7 @@ export class AuthService {
 
   refreshToken(): Observable<AccessToken>  {
     const url = 'http://localhost:8080/auth/jwt/refresh'
-    const refreshToken = localStorage.getItem('refreshToken');
+    const refreshToken = sessionStorage.getItem('refreshToken');
     if (refreshToken) {
       return this.http.post<AccessToken>(url, { refresh: refreshToken });
     }

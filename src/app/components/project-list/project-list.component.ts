@@ -10,6 +10,8 @@ import { MatDialog } from '@angular/material/dialog';
 import {MatListModule} from '@angular/material/list'; 
 
 import { CreateProjectComponent } from '../create-project/create-project.component';
+import { catchError, tap } from 'rxjs/operators';
+import { of } from 'rxjs'
 
 @Component({
   selector: 'app-project-list',
@@ -32,9 +34,15 @@ export class ProjectListComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.projectService.getProjects().subscribe((data: Project[]) => {
-      this.projects = data;
-    });
+    this.projectService.getProjects().pipe(
+      tap(response => {
+        this.projects = response;
+      }),
+      catchError(error => {
+        console.error("Could not get projects", error);
+        return of(null); // Return an observable to complete the pipe
+      })
+    ).subscribe();
 
   }
 
@@ -45,6 +53,15 @@ export class ProjectListComponent implements OnInit{
   });
 
   dialogRef.afterClosed().subscribe(result => {
+    this.projectService.getProjects().pipe(
+      tap(response => {
+        this.projects = response;
+      }),
+      catchError(error => {
+        console.error("Could not get projects", error);
+        return of(null); // Return an observable to complete the pipe
+      })
+    ).subscribe();
     console.log('Der Dialog wurde geschlossen');
     //etwas tun wenn der Dialog geschlossen wird
   });

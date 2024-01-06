@@ -79,3 +79,41 @@ app-project-detail {
     margin: 10px;
 
 }
+
+.gallery {
+    display: flex;
+    overflow-x: auto;
+    width: 100%;
+}
+
+.gallery div {
+    flex: 0 0 20%; 
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+.gallery-container {
+    position: relative;
+    margin-right: 30px;
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #fff;
+    border: 1px solid #ccc;
+}
+
+.arrow.left {
+    left: 0;
+}
+
+.arrow.right {
+    right: 0;
+}
