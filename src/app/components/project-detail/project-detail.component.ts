@@ -10,6 +10,8 @@ import {MatIconModule} from '@angular/material/icon';
 import { SecurePipe } from '../../pipes/secure.pipe';
 
 
+
+
 @Component({
   selector: 'app-project-detail',
   standalone: true,
@@ -70,7 +72,6 @@ export class ProjectDetailComponent implements OnChanges{
     }
   }
 
-  
   uploadImage(): void {
     this.selectedFiles.forEach(file => {
       const formData = new FormData();
