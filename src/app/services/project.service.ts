@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Project } from '../interfaces/project';
 import { Image } from '../interfaces/image';
+import { AiModel } from '../interfaces/ai_model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,4 +31,15 @@ export class ProjectService {
     const url = 'http://localhost:8080/store/projects';
     return this.http.post(`${url}/${projectId}/images`, formData);
   }
+
+  getAIModels(): Observable<AiModel[]> {
+    const url = 'http://localhost:8080/store/ais';
+    return this.http.get<AiModel[]>(url);
+  }
+
+  deleteImg(projectId: number, imageId: number) {
+    const url = 'http://localhost:8080/store/projects'
+    return this.http.delete(`${url}/${projectId}/images/${imageId}`);
+  }
+
 }

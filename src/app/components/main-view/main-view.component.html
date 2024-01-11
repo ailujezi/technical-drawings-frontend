@@ -1,8 +1,5 @@
-
-<div>
-    <app-header></app-header>
-    <div class="main-container">
-        <app-project-list (projectSelected)="onProjectSelected($event)"></app-project-list>
-        <app-main-content [selectedProject]="selectedProject"></app-main-content>
-    </div>
+<app-header></app-header>
+<div class="main-container">
+    <app-project-list (projectSelected)="onProjectSelected($event)"></app-project-list>
+    <app-main-content class="main-content" [selectedProject]="selectedProject"></app-main-content>
 </div>

@@ -1,0 +1,22 @@
+<div *ngIf="selectedProject">
+    <h1>{{ selectedProject.name }}</h1>
+    <h2>{{ selectedProject.description}}</h2>
+    <div class="gallery-container">
+        <div *ngFor="let image of images" class="delete-image-container">
+            <img [attr.src]="image.image_url | secure | async" [alt]="image.name"/>
+            <div *ngFor="let overlay of overlays" 
+            [ngStyle]="{
+                'position': 'absolute',
+                'left.px': overlay.x,
+                'top.px': overlay.y,
+                'width.px': overlay.width,
+                'height.px': overlay.height
+            }">
+            {{ overlay.text }}
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="!selectedProject">
+<h1>Please select a Project</h1>
+</div>

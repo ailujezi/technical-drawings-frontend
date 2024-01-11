@@ -4,18 +4,21 @@ import { Project } from '../../interfaces/project';
 import { Image } from '../../interfaces/image';
 import { ProjectService } from '../../services/project.service';
 import { FormsModule } from '@angular/forms';
+import { AiModel } from '../../interfaces/ai_model';
 
 import { MatButtonModule } from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon'; 
 import { SecurePipe } from '../../pipes/secure.pipe';
 
-
+import {MatGridListModule} from '@angular/material/grid-list'; 
+import { catchError, tap } from 'rxjs/operators';
+import { of } from 'rxjs'
 
 
 @Component({
   selector: 'app-project-detail',
   standalone: true,
-  imports: [ CommonModule, MatButtonModule, MatIconModule, FormsModule, SecurePipe ],
+  imports: [ CommonModule, MatButtonModule, MatIconModule, FormsModule, SecurePipe, MatGridListModule ],
   templateUrl: './project-detail.component.html',
   styleUrl: './project-detail.component.scss'
 })
@@ -25,9 +28,21 @@ export class ProjectDetailComponent implements OnChanges{
   constructor(private projectService: ProjectService) { }
 
   images: Image[] = [];
+  aiModelName: string = "";
+  aiModels: AiModel[] = []; 
+
 
   ngOnInit() {
     this.loadImages();
+    this.projectService.getAIModels().pipe(
+      tap(response => {
+        this.aiModels = response;
+      }),
+      catchError(error => {
+        console.error("Could not get AIModels", error);
+        return of(null); // Return an observable to complete the pipe
+      })
+    ).subscribe();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -37,6 +52,11 @@ export class ProjectDetailComponent implements OnChanges{
         const newProject = change.currentValue as Project;
         this.images = [];
         this.loadImages();
+        for (let i = 0; i < this.aiModels.length; i++) {
+          if (this.selectedProject?.ai_model_id == this.aiModels[i].id) {
+            this.aiModelName = this.aiModels[i].name;
+          }
+        }
       }
     }
   }
@@ -89,5 +109,29 @@ export class ProjectDetailComponent implements OnChanges{
         console.error('Selected project is undefined (uploadImage)');
       }
     });
+  }
+
+  deleteImg(image: Image): void {
+    if (this.selectedProject) {
+      console.log('imgid:'+ image.id + "projhectid:" + image.project_id);
+
+      this.projectService.deleteImg(image.project_id, image.id).subscribe(
+        response => {
+          this.loadImages();
+        },
+        error => console.error(error + "delete image")
+      );
+    }
+  }
+
+  startVisualization() {
+    this.projectService.getAIModels().pipe(
+      tap(response => {
+      }),
+      catchError(error => {
+        console.error("Could not start visualization", error);
+        return of(null); // Return an observable to complete the pipe
+      })
+    ).subscribe();
   }
 }

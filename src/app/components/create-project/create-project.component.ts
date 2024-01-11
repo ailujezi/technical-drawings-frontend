@@ -14,8 +14,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import {MatTooltipModule} from '@angular/material/tooltip'; 
 
-import AiModelList from '../../../assets/exampleAiList.json';
-
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs'
 
@@ -30,12 +28,20 @@ import { of } from 'rxjs'
 export class CreateProjectComponent {
   project = { name: '', description: '', ai_model_id: null };
 
-  aiModels: AiModel[] = AiModelList; 
+  aiModels: AiModel[] = []; 
 
   constructor(private projectService: ProjectService, public dialogRef: MatDialogRef<CreateProjectComponent>) {}
 
   ngOnInit(): void {
-    // Lade die AI-Modelle vom Server
+    this.projectService.getAIModels().pipe(
+      tap(response => {
+        this.aiModels = response;
+      }),
+      catchError(error => {
+        console.error("Could not get AIModels", error);
+        return of(null); // Return an observable to complete the pipe
+      })
+    ).subscribe();
   }
 
   onSubmit(): void {

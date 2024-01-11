@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 
@@ -17,7 +17,7 @@ import { AuthService } from './services/auth.service';
 export class AppComponent implements OnInit, OnDestroy {
   private refreshSubscription!: Subscription;
 
-  constructor(private authService: AuthService) {}
+  constructor(private router: Router,private authService: AuthService) {}
 
   ngOnInit() {
     this.refreshSubscription = interval(60000) // every 60 seconds
@@ -30,7 +30,9 @@ export class AppComponent implements OnInit, OnDestroy {
           sessionStorage.setItem('accessToken', response.access);
         },
         error => {
+
           console.error(error + "AppComponent");
+          this.router.navigate(['/login']);
         }
       );
       

@@ -1,0 +1,40 @@
+.arrow.left {
+    left: 0;
+}
+
+.arrow.right {
+    right: 0;
+}
+
+.delete-image-container {
+    position: relative;
+    display: inline-block;
+}
+
+img {
+    display: block;
+    width: 100%;
+}
+
+.delete-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: red;
+    color: white;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.flex-container {
+    display: flex;
+    width: 100%;
+}
+
+.top-div {
+    flex: 1 1 30%;
+}
+
+.bottom-div {
+    flex: 1 1 70%;
+}

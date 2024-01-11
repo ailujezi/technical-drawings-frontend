@@ -5,42 +5,9 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-.logo {
-    height: 46px;
-    width: 135px;
-}
-
 app-header {
     width: 100%;
 }
-
-.login-container {
-    background-color: #e7e7e7;
-    border-radius: 10px;
-    padding: 20px; 
-    margin: auto;
-    width: fit-content;
-}
-
-.login-container div {
-    margin: 10px 0;
-}
-
-.register-container {
-    background-color: #e7e7e7;
-    border-radius: 10px;
-    padding: 20px; 
-    margin: auto;
-    width: fit-content;
-}
-
-.register-container div {
-    margin: 10px 0;
-}
-
-.spacer {
-    flex: 1 1 auto;
-  }
 
 .main-container {
     display: flex;
@@ -111,10 +78,13 @@ img {
     border: 1px solid #ccc;
 }
 
-.arrow.left {
-    left: 0;
+
+
+.tab-group-container {
+    overflow: hidden;
 }
 
-.arrow.right {
-    right: 0;
+//workaround vor material bug https://github.com/angular/components/issues/27118
+.mat-mdc-button-touch-target {
+    height: inherit !important;
 }

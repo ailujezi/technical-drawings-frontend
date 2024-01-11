@@ -1,11 +1,28 @@
 <div *ngIf="selectedProject">
-  <h1>{{ selectedProject.name }}</h1>
-  <h2>{{ selectedProject.description}}</h2>
+  <div class="flex-container">
+    <div class="top-div">
+      <h1>Project name: </h1>
+      <h3 *ngIf="selectedProject.description!=''">Project description: </h3>
+      <h3>Project AiModel: </h3>
+      <h3>Visualized: </h3>
+    </div>
+    <div class="bottom-div">
+      <h1>{{ selectedProject.name }}</h1>
+      <h3>{{ selectedProject.description}}</h3>
+      <h3>{{ aiModelName}}</h3>
+      <div>Not yet visualized</div>
+      <button (click)="startVisualization()" mat-raised-button color="accent">
+        <mat-icon>autorenew</mat-icon>
+        Visualize
+      </button>
+    </div>
+  </div>
   <div class="gallery-container">
     <button *ngIf="images.length > 5" (click)="scrollLeft()" class="arrow left">&lt;</button>
     <div class="gallery">
-      <div *ngFor="let image of images">
+      <div *ngFor="let image of images" class="delete-image-container">
         <img [attr.src]="image.image_url | secure | async" [alt]="image.name"/>
+        <div class="delete-icon" (click)="deleteImg(image)">X</div>
       </div>
     </div>
     <button *ngIf="images.length > 5" (click)="scrollRight()" class="arrow right">&gt;</button>
@@ -18,6 +35,9 @@
       Upload
     </button>
   </form>
+</div>
+<div *ngIf="!selectedProject">
+  <h1>Please select a Project</h1>
 </div>
 
 
