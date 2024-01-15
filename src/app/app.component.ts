@@ -17,9 +17,11 @@ import { AuthService } from './services/auth.service';
 export class AppComponent implements OnInit, OnDestroy {
   private refreshSubscription!: Subscription;
 
-  constructor(private router: Router,private authService: AuthService) {}
+  constructor(private router: Router,private authService: AuthService) {
+  }
 
   ngOnInit() {
+
     this.refreshSubscription = interval(60000) // every 60 seconds
       .pipe(
         startWith(0), // start immediately
@@ -31,7 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
         },
         error => {
 
-          console.error(error + "AppComponent");
+          console.error(error + " (AppComponent)");
           this.router.navigate(['/login']);
         }
       );

@@ -2,10 +2,15 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Project } from '../../interfaces/project';
 import { Image } from '../../interfaces/image';
+import { OverlayDetection } from '../../interfaces/overlay_detection';
 import { ProjectService } from '../../services/project.service';
+import { ResultsService } from '../../services/results.service';
 
 import {MatIconModule} from '@angular/material/icon'; 
 import { SecurePipe } from '../../pipes/secure.pipe';
+
+import { catchError, tap } from 'rxjs/operators';
+import { of } from 'rxjs'
 
 
 
@@ -19,15 +24,23 @@ import { SecurePipe } from '../../pipes/secure.pipe';
 export class VisualizationComponent {
   @Input() selectedProject?: Project;
 
-  constructor(private projectService: ProjectService) { }
+  constructor(private projectService: ProjectService, private resultsService: ResultsService) { }
 
+  isVisualized: boolean = false;
   images: Image[] = [];
+  overlays: OverlayDetection[] = [];
 
   ngOnInit() {
     this.loadImages();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (this.selectedProject && this.selectedProject.status == 'COMPLETED') {
+      this.isVisualized = true;
+    }
+    else {
+      this.isVisualized = false;
+    }
     if (changes['selectedProject']) {
       const change = changes['selectedProject'];
       if (change && !change.firstChange) {
@@ -38,23 +51,35 @@ export class VisualizationComponent {
     }
   }
 
-  selectedFiles: File[] = [];
-
-  onFilesSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files) {
-      this.selectedFiles = Array.from(input.files);
-    }
-  }
-
   loadImages(): void {
     if (this.selectedProject && this.selectedProject.id !== undefined) {
+      if (this.selectedProject.status == 'COMPLETED') {
+        this.isVisualized = true;
+
+      }
+      else {
+        this.isVisualized = false;
+      }
       this.projectService.getImages(this.selectedProject.id).subscribe(
         data => this.images = data,
         error => console.error(error)
       );
     } else {
       console.error('Selected project is undefined (loadImages)');
+    }
+  }
+
+  getOverlays() {
+    if (this.selectedProject) {
+      this.resultsService.getOverlays(this.selectedProject.id).pipe(
+          tap(response => {
+              this.getOverlays = response.
+          }),
+          catchError(error => {
+              console.error("Could not get Overlays", error);
+              return of(null);
+          })
+      ).subscribe();
     }
   }
 }

@@ -13,8 +13,10 @@ export class SecurePipe implements PipeTransform {
     constructor(private http: HttpClient, private sanitizer: DomSanitizer) { }
 
     transform(url: string): Observable<SafeUrl> {
+      const modifiedUrl = url.replace('http://localhost:8080/', '');
+
       return this.http
-          .get<Blob>(url, { responseType: 'blob' as 'json' })
+          .get<Blob>(modifiedUrl, { responseType: 'blob' as 'json' })
           .pipe(map(val => this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(val))));
   }
 

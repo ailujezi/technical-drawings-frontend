@@ -9,6 +9,7 @@ import {
 import { Observable } from 'rxjs';
 
 import { AuthService } from './services/auth.service';
+import { environment } from '../environments/environment';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -20,13 +21,15 @@ export class AuthInterceptor implements HttpInterceptor {
     const accessToken = sessionStorage.getItem('accessToken');
     const authService = inject(AuthService);
 
+    let apiReq = request.clone({ url: `${environment.apiUrl}/${request.url}` });
+
     if (accessToken && authService.isLoggedIn()) {
-      request = request.clone({
+      apiReq = apiReq.clone({
         setHeaders: {
           Authorization: `Bearer ${accessToken}`
         }
       });
     }
-    return next.handle(request);
+    return next.handle(apiReq);
   }
 }

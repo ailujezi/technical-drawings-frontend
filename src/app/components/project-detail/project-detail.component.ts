@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Project } from '../../interfaces/project';
 import { Image } from '../../interfaces/image';
 import { ProjectService } from '../../services/project.service';
+import { ResultsService } from '../../services/results.service';
 import { FormsModule } from '@angular/forms';
 import { AiModel } from '../../interfaces/ai_model';
 
@@ -13,6 +14,9 @@ import { SecurePipe } from '../../pipes/secure.pipe';
 import {MatGridListModule} from '@angular/material/grid-list'; 
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs'
+
+import { interval } from 'rxjs';
+import { switchMap, takeWhile } from 'rxjs/operators';
 
 
 @Component({
@@ -25,7 +29,7 @@ import { of } from 'rxjs'
 export class ProjectDetailComponent implements OnChanges{
   @Input() selectedProject?: Project;
 
-  constructor(private projectService: ProjectService) { }
+  constructor(private projectService: ProjectService, private resultService: ResultsService) { }
 
   images: Image[] = [];
   aiModelName: string = "";
@@ -125,13 +129,35 @@ export class ProjectDetailComponent implements OnChanges{
   }
 
   startVisualization() {
-    this.projectService.getAIModels().pipe(
-      tap(response => {
-      }),
-      catchError(error => {
-        console.error("Could not start visualization", error);
-        return of(null); // Return an observable to complete the pipe
-      })
-    ).subscribe();
-  }
+    if (this.selectedProject) {
+      const currentProjectId = this.selectedProject.id;
+      this.resultService.startVisualization(this.selectedProject.id).pipe(
+          tap(response => {
+              const pollingInterval = 1000;
+              interval(pollingInterval).pipe(
+                  switchMap(() => this.projectService.getProject(currentProjectId)),
+                  takeWhile(project => this.checkCondition(project), true)
+              ).subscribe(project => {
+                  if (!this.checkCondition(project)) {
+                      console.log('Condition met, stop polling');
+                  }
+                  else {
+                    console.log('no');
+                  }
+              });
+          }),
+          catchError(error => {
+              console.error("Could not start visualization", error);
+              return of(null);
+          })
+      ).subscribe();
+    }
+}
+
+checkCondition(project: Project): boolean {
+    if (project.status == 'COMPLETED') {
+      return false;
+    }
+    return true;
+}
 }

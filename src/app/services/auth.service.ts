@@ -6,19 +6,23 @@ import { AccessRefreshToken } from '../interfaces/access_refresh_token';
 import { AccessToken } from '../interfaces/access_token'
 import { throwError } from 'rxjs';
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+
+  constructor(private http: HttpClient) {
+  }
 
   login(data: any): Observable<AccessRefreshToken> {
-    const url = 'http://localhost:8080/auth/jwt/create'
+    const url = 'auth/jwt/create'
     return this.http.post<AccessRefreshToken>(url, data);
   }
 
   register(data: any) {
-    const url = 'http://localhost:8080/auth/users';
+    const url = 'auth/users';
     return this.http.post(url, data);
   }
 
@@ -27,7 +31,7 @@ export class AuthService {
   }
 
   refreshToken(): Observable<AccessToken>  {
-    const url = 'http://localhost:8080/auth/jwt/refresh'
+    const url = 'auth/jwt/refresh'
     const refreshToken = sessionStorage.getItem('refreshToken');
     if (refreshToken) {
       return this.http.post<AccessToken>(url, { refresh: refreshToken });
