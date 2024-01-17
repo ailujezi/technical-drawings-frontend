@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Detection } from '../interfaces/detection';
+import { Results } from '../interfaces/results';
 import { Project } from '../interfaces/project';
 import { Image } from '../interfaces/image';
 import { AiModel } from '../interfaces/ai_model';
@@ -22,8 +22,8 @@ export class ResultsService {
     return this.http.post(`${url}/${projectId}/start`, null);
   }
 
-  getOverlays(projectId: number): Observable<Detection> {
+  getOverlays(projectId: number): Observable<Results> {
     const url = 'store/projects';
-    return this.http.get<Detection>(`${url}/${projectId}/results`);
+    return this.http.get<Results>(`${url}/${projectId}/results`);
   }
 }

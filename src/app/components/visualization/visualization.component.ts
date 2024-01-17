@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Project } from '../../interfaces/project';
 import { Image } from '../../interfaces/image';
-import { OverlayDetection } from '../../interfaces/overlay_detection';
+import { OverlayRecognition } from '../../interfaces/overlay_recognition';
 import { ProjectService } from '../../services/project.service';
 import { ResultsService } from '../../services/results.service';
 
@@ -28,7 +28,7 @@ export class VisualizationComponent {
 
   isVisualized: boolean = false;
   images: Image[] = [];
-  overlays: OverlayDetection[] = [];
+  overlays: OverlayRecognition[] = [];
 
   ngOnInit() {
     this.loadImages();
@@ -55,7 +55,7 @@ export class VisualizationComponent {
     if (this.selectedProject && this.selectedProject.id !== undefined) {
       if (this.selectedProject.status == 'COMPLETED') {
         this.isVisualized = true;
-
+        this.getOverlays();
       }
       else {
         this.isVisualized = false;
@@ -73,7 +73,7 @@ export class VisualizationComponent {
     if (this.selectedProject) {
       this.resultsService.getOverlays(this.selectedProject.id).pipe(
           tap(response => {
-              this.getOverlays = response.
+              this.overlays = response.result_detection.elements;
           }),
           catchError(error => {
               console.error("Could not get Overlays", error);
