@@ -117,7 +117,6 @@ export class ProjectDetailComponent implements OnChanges{
 
   deleteImg(image: Image): void {
     if (this.selectedProject) {
-      console.log('imgid:'+ image.id + "projhectid:" + image.project_id);
 
       this.projectService.deleteImg(image.project_id, image.id).subscribe(
         response => {
@@ -139,10 +138,9 @@ export class ProjectDetailComponent implements OnChanges{
                   takeWhile(project => this.checkCondition(project), true)
               ).subscribe(project => {
                   if (!this.checkCondition(project)) {
-                      console.log('Condition met, stop polling');
+                      console.log('Visualization Completed');
                   }
                   else {
-                    console.log('no');
                   }
               });
           }),

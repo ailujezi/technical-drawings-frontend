@@ -73,7 +73,6 @@ export class VisualizationComponent {
     if (this.selectedProject) {
       this.resultsService.getOverlays(this.selectedProject.id).pipe(
           tap(response => {
-            console.log(response);
             if (response) {
               const responseData = response[0];
               const keys = Object.keys(responseData.result_recognition);
@@ -92,5 +91,34 @@ export class VisualizationComponent {
           })
       ).subscribe();
     }
+  }
+
+  getOverlayStyle(imageElement: HTMLImageElement, overlay: any) {
+    const originalWidth = imageElement.naturalWidth;
+    const originalHeight = imageElement.naturalHeight;
+  
+    const { scaleFactorWidth, scaleFactorHeight } = this.getScaleFactor(imageElement, originalWidth, originalHeight);
+  
+    const left = overlay.bbox_xyxy_abs[0] * scaleFactorWidth;
+    const top = overlay.bbox_xyxy_abs[1] * scaleFactorHeight;
+    const width = (overlay.bbox_xyxy_abs[2] - overlay.bbox_xyxy_abs[0]) * scaleFactorWidth;
+    const height = (overlay.bbox_xyxy_abs[3] - overlay.bbox_xyxy_abs[1]) * scaleFactorHeight;
+  
+    return {
+      'position': 'absolute',
+      'left.px': left,
+      'top.px': top,
+      'width.px': width,
+      'height.px': height,
+      'background-color': 'red',
+      'border': '5px solid blue',
+      'z-index': '10'
+    };
+  }
+
+  getScaleFactor(imageElement: HTMLImageElement, originalWidth: number, originalHeight: number) {
+    const scaleFactorWidth = imageElement.width / originalWidth;
+    const scaleFactorHeight = imageElement.height / originalHeight;
+    return { scaleFactorWidth, scaleFactorHeight };
   }
 }
