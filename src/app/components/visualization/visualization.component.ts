@@ -73,7 +73,18 @@ export class VisualizationComponent {
     if (this.selectedProject) {
       this.resultsService.getOverlays(this.selectedProject.id).pipe(
           tap(response => {
-              this.overlays = response.result_detection.elements;
+            console.log(response);
+            if (response) {
+              const responseData = response[0];
+              const keys = Object.keys(responseData.result_recognition);
+              
+              if (keys.length > 0) {
+                const firstKey = keys[0];
+                console.log(firstKey);
+
+                this.overlays = responseData.result_recognition[firstKey].elements;
+              }
+            }       
           }),
           catchError(error => {
               console.error("Could not get Overlays", error);

@@ -3,19 +3,19 @@
     <div class="gallery-container">
         <div *ngFor="let image of images" class="Visualization-image-container">
             <img [attr.src]="image.image_url | secure | async" [alt]="image.name"/>
-            <div *ngFor="let overlay of overlays" 
+            <label *ngFor="let overlay of overlays" 
             [ngStyle]="{
                 'position': 'absolute',
-                'left.px': 10,
-                'top.px': 10,
-                'width.px': 50,
-                'height.px': 50,
+                'left.px': overlay.bbox_xyxy_abs[0],
+                'top.px': overlay.bbox_xyxy_abs[1],
+                'width.px': (overlay.bbox_xyxy_abs[2] - overlay.bbox_xyxy_abs[0]),
+                'height.px': (overlay.bbox_xyxy_abs[3] - overlay.bbox_xyxy_abs[1]),
                 'background-color': 'red',
                 'border': '5px solid blue',
                 'z-index': '10'
-            }">
+            }" >
             {{ overlay.text }}
-            </div>
+            </label>
         </div>
     </div>
 </div>
