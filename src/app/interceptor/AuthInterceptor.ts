@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { environment } from '../../environments/environment';
 
+//Interceptor to add authorization to http requests (Accestoken)
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 

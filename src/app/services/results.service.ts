@@ -5,8 +5,6 @@ import { Results } from '../interfaces/results';
 import { Project } from '../interfaces/project';
 import { Image } from '../interfaces/image';
 import { AiModel } from '../interfaces/ai_model';
-import { ResultsArray } from '../interfaces/results_array';
-
 import { environment } from '../../environments/environment';
 
 
@@ -23,8 +21,8 @@ export class ResultsService {
     return this.http.post(`${url}/${projectId}/start`, null);
   }
 
-  getOverlays(projectId: number): Observable<ResultsArray> {
+  getOverlays(projectId: number): Observable<Results[]> {
     const url = 'store/projects';
-    return this.http.get<ResultsArray>(`${url}/${projectId}/results`);
+    return this.http.get<Results[]>(`${url}/${projectId}/results`);
   }
 }

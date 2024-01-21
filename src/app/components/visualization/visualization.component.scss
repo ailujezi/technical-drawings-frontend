@@ -1,4 +1,40 @@
-.visualization-image-container {
+
+.selected-image-container img {
+    width: 100%;
+}
+
+.thumbnail {
     position: relative;
     display: inline-block;
+    cursor: pointer;
+}
+
+img {
+    display: block;
+    width: 100%;
+}
+
+.gallery {
+    display: flex;
+    overflow-x: auto;
+    width: 100%;
+    scroll-behavior: smooth;
+}
+
+.gallery div {
+    flex: 0 0 10%; 
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+.selected-image-container {
+    position: relative;
+}
+
+.gallery-container {
+    margin-right: 30px;
+}
+
+.gallery-and-button-container {
+    display:flex;
 }

@@ -38,3 +38,20 @@ img {
 .bottom-div {
     flex: 1 1 70%;
 }
+
+.gallery {
+    display: flex;
+    overflow-x: auto;
+    width: 100%;
+}
+
+.gallery div {
+    flex: 0 0 20%; 
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+.gallery-container {
+    position: relative;
+    margin-right: 30px;
+}

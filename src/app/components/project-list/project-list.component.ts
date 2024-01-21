@@ -29,6 +29,7 @@ export class ProjectListComponent implements OnInit{
 
   @Output() projectSelected = new EventEmitter<Project>();
 
+  //If selected project changes emit to parent (mainview)
   selectProject(project: Project): void {
     this.projectSelected.emit(project);
   }
@@ -40,7 +41,7 @@ export class ProjectListComponent implements OnInit{
       }),
       catchError(error => {
         console.error("Could not get projects", error);
-        return of(null); // Return an observable to complete the pipe
+        return of(null);
       })
     ).subscribe();
 
@@ -49,9 +50,11 @@ export class ProjectListComponent implements OnInit{
   openCreateProjectDialog(): void {
     const dialogRef = this.dialog.open(CreateProjectComponent, {
       width: '300px',
-      data: { /* daten übergeben*/ }
+      data: {}
   });
 
+
+  //Handle coing of dialog
   dialogRef.afterClosed().subscribe(result => {
     this.projectService.getProjects().pipe(
       tap(response => {
@@ -59,11 +62,11 @@ export class ProjectListComponent implements OnInit{
       }),
       catchError(error => {
         console.error("Could not get projects", error);
-        return of(null); // Return an observable to complete the pipe
+        return of(null);
       })
     ).subscribe();
+    
     console.log('Der Dialog wurde geschlossen');
-    //etwas tun wenn der Dialog geschlossen wird
   });
 }
 }

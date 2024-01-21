@@ -1,14 +1,18 @@
 <div *ngIf="selectedProject && isVisualized">
-    <h1>{{ selectedProject.name }}</h1>
     <div class="gallery-container">
-        <div *ngFor="let image of images" class="Visualization-image-container">
-            <img #imageElement [attr.src]="image.image_url | secure | async" [alt]="image.name"/>
-            <label *ngFor="let overlay of overlays" 
-            [ngStyle]="getOverlayStyle(imageElement, overlay)">
-            {{ overlay.text }}
+        <div class="gallery">
+            <div *ngFor="let image of images" class="thumbnail" (click)="selectImage(image)">
+                <img [attr.src]="image.image_url | secure | async" [alt]="image.name"/>
+            </div>
+        </div>
+        <div *ngIf="selectedImage" class="selected-image-container">
+            <img #imageElement [attr.src]="selectedImage.image_url | secure | async" [alt]="selectedImage.name" (load)="reloadLables()"/>
+            <label id="overlays"  *ngFor="let overlay of overlays" [ngStyle]="getOverlayStyle(imageElement, overlay)">
+                {{ overlay.text }}
             </label>
         </div>
     </div>
+    
 </div>
 <div *ngIf="!selectedProject">
 <h1>Please select a Project</h1>

@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
+//Interceptor to handle 401 (request token expired) error and send user back to login page
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
   constructor(private router: Router) {}

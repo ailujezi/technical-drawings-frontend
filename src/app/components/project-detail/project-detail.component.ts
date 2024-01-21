@@ -27,6 +27,7 @@ import { switchMap, takeWhile } from 'rxjs/operators';
   styleUrl: './project-detail.component.scss'
 })
 export class ProjectDetailComponent implements OnChanges{
+  //Get selectedproject from Parent(mainview)
   @Input() selectedProject?: Project;
 
   constructor(private projectService: ProjectService, private resultService: ResultsService) { }
@@ -37,6 +38,7 @@ export class ProjectDetailComponent implements OnChanges{
 
 
   ngOnInit() {
+    //Get AIModels on init
     this.loadImages();
     this.projectService.getAIModels().pipe(
       tap(response => {
@@ -49,6 +51,7 @@ export class ProjectDetailComponent implements OnChanges{
     ).subscribe();
   }
 
+  //When selctedproject changes then load new images and set AIModel name
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedProject']) {
       const change = changes['selectedProject'];

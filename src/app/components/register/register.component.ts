@@ -36,7 +36,7 @@ export class RegisterComponent {
       }),
       catchError(error => {
         console.error('Registration error:', error);
-        return of(null); // Return an observable to complete the pipe
+        return of(null);
       })
     ).subscribe();
   }
