@@ -10,10 +10,15 @@
       <h1>{{ selectedProject.name }}</h1>
       <h3>{{ selectedProject.description}}</h3>
       <h3>{{ aiModelName}}</h3>
-      <div>Not yet visualized</div>
-      <button (click)="startVisualization()" mat-raised-button color="accent">
+      <div *ngIf="selectedProject.status != 'COMPLETED'">Not yet visualized</div>
+      <div *ngIf="selectedProject.status == 'COMPLETED'">Not yet visualized</div>
+      <button *ngIf="selectedProject.status != 'COMPLETED'" (click)="startVisualization()" mat-raised-button color="accent">
         <mat-icon>autorenew</mat-icon>
         Visualize
+      </button>
+      <button *ngIf="selectedProject.status == 'COMPLETED'" (click)="startVisualization()" mat-raised-button color="accent">
+        <mat-icon>autorenew</mat-icon>
+        Revisualize
       </button>
     </div>
   </div>

@@ -56,6 +56,7 @@ export class VisualizationComponent {
       const change = changes['selectedProject'];
       if (change && !change.firstChange) {
         const newProject = change.currentValue as Project;
+        this.selectedImage = undefined;
         this.images = [];
         this.loadImages();
       }
@@ -102,13 +103,17 @@ export class VisualizationComponent {
 
   getOverlaysForCurrentImg(image:Image) {
     if (this.responseData){
-      let index = 0;
+      let index = -1;
       for (let i = 0; i < this.responseData.length; i++) {
         if(image.id == this.responseData[i].image_id)
         {
           index = i;
-          break;
         }
+      }
+
+      if (index == -1) {
+        this.overlays = [];
+        return;
       }
       //First Object in responsdata.results_recognition (interface Results, results_recognition) has unknown name and has to be handeld as key of a map.
       const keys = Object.keys(this.responseData[index].result_recognition);
@@ -140,9 +145,8 @@ export class VisualizationComponent {
       'top.px': top,
       'width.px': width,
       'height.px': height,
-      'background-color': 'red',
-      'border': '5px solid blue',
-      'z-index': '10'
+      'border': '5px solid Red',
+      'z-index': '10',
     };
   }
 
