@@ -1,5 +1,5 @@
-<app-header></app-header>
+<app-header (isMenuOpen)="onMenuOpenChanged($event)"></app-header>
 <div class="main-container">
-    <app-project-list (projectSelected)="onProjectSelected($event)"></app-project-list>
-    <app-main-content class="main-content" [selectedProject]="selectedProject"></app-main-content>
+    <app-project-list *ngIf="isMenuOpenValue" (projectSelected)="onProjectSelected($event)"></app-project-list>
+    <app-main-content class="main-content" [selectedProject]="selectedProject" [ngClass]="{'full-width': !isMenuOpenValue}"></app-main-content>
 </div>

@@ -1,9 +1,26 @@
-.main-content {
-    width: 100%;
-}
+//.main-content {
+//    width: 100%;
+//}
 
 app-header {
     width: 100%;
     height: 60px;
     display: inline-block;
+}
+
+app-project-list {
+    flex: 0 0 20%;
+    max-width: 20%;
+    height: 100%;
+}
+
+.main-content {
+    flex-grow: 1;
+    height: 100%;
+    padding-left: 30px;
+}
+
+.main-content.full-width {
+    flex: 0 0 100%;
+    max-width: 100%;
 }

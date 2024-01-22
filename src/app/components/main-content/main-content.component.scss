@@ -6,3 +6,10 @@
 .visualization {
     display: flex;
 }
+
+app-project-detail {
+    flex-grow: 1;
+    height: 100%;
+    padding-left: 30px;
+    width: 100%;
+}

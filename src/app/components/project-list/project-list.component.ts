@@ -1,8 +1,9 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { Project } from '../../interfaces/project';
 import { ProjectService } from '../../services/project.service';
 import { CommonModule } from '@angular/common';
 
+import {MatIconModule} from '@angular/material/icon'; 
 import {MatCardModule} from '@angular/material/card'; 
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -16,7 +17,7 @@ import { of } from 'rxjs'
 @Component({
   selector: 'app-project-list',
   standalone: true,
-  imports: [ CommonModule, MatCardModule, MatButtonModule, MatDialogModule, MatListModule, CreateProjectComponent],
+  imports: [ CommonModule, MatCardModule, MatButtonModule, MatDialogModule, MatListModule, CreateProjectComponent, MatIconModule],
   templateUrl: './project-list.component.html',
   styleUrl: './project-list.component.scss'
 })
