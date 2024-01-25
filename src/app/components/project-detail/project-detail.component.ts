@@ -6,7 +6,9 @@ import { ProjectService } from '../../services/project.service';
 import { ResultsService } from '../../services/results.service';
 import { FormsModule } from '@angular/forms';
 import { AiModel } from '../../interfaces/ai_model';
+import { DeleteMessageComponent } from '../delete-message/delete-message.component';
 
+import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon'; 
 import { SecurePipe } from '../../pipes/secure.pipe';
@@ -30,7 +32,7 @@ export class ProjectDetailComponent implements OnChanges{
   //Get selectedproject from Parent(mainview)
   @Input() selectedProject?: Project;
 
-  constructor(private projectService: ProjectService, private resultService: ResultsService) { }
+  constructor(private projectService: ProjectService, private resultService: ResultsService, public dialog: MatDialog) { }
 
   images: Image[] = [];
   aiModelName: string = "";
@@ -128,6 +130,19 @@ export class ProjectDetailComponent implements OnChanges{
         error => console.error(error + "delete image")
       );
     }
+  }
+
+  openDialog(image: Image): void {
+    const dialogRef = this.dialog.open(DeleteMessageComponent, {
+      width: '250px',
+    });
+
+    dialogRef.componentInstance.deleteClickedNo.subscribe(() => {
+    });
+
+    dialogRef.componentInstance.deleteClickedYes.subscribe(() => {
+      this.deleteImg(image);
+    });
   }
 
   startVisualization() {

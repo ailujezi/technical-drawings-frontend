@@ -1,8 +1,11 @@
 <button class="marg" mat-raised-button color="primary" (click)="openCreateProjectDialog()">Neues Projekt</button>
 
-<mat-list class="project-mat-list">
-  <mat-list-item *ngFor="let project of projects" (click)="selectProject(project)">
-    <span matListItemTitle>{{ project.name }}</span>
-    <span>{{ project.description }}</span>
-  </mat-list-item>
-</mat-list>
+<div class="project-list-container">
+  <mat-list class="project-mat-list">
+    <mat-list-item class="mat-list-item" *ngFor="let project of projects" (click)="selectProject(project)">
+      <div class="delete-icon" (click)="openDialog(project)">X</div>
+      <span matListItemTitle>{{ project.name }}</span>
+      <span>{{ project.description }}</span>
+    </mat-list-item>
+  </mat-list>
+</div>

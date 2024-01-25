@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import {MatListModule} from '@angular/material/list'; 
 
 import { CreateProjectComponent } from '../create-project/create-project.component';
+import { DeleteProjectComponent } from '../delete-project/delete-project.component';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs'
 
@@ -55,7 +56,7 @@ export class ProjectListComponent implements OnInit{
   });
 
 
-  //Handle coing of dialog
+  //Handle cloing of dialog
   dialogRef.afterClosed().subscribe(result => {
     this.projectService.getProjects().pipe(
       tap(response => {
@@ -68,6 +69,36 @@ export class ProjectListComponent implements OnInit{
     ).subscribe();
     
     console.log('Der Dialog wurde geschlossen');
-  });
-}
+    });
+  }
+
+  openDialog(project: Project): void {
+    const dialogRef = this.dialog.open(DeleteProjectComponent, {
+      width: '250px',
+    });
+
+    dialogRef.componentInstance.deleteClickedNo.subscribe(() => {
+    });
+
+    dialogRef.componentInstance.deleteClickedYes.subscribe(() => {
+      this.deleteProject(project);
+    });
+  }
+
+  deleteProject(project: Project): void {
+    this.projectService.deleteProject(project.id).subscribe(
+      response => {
+        this.projectService.getProjects().pipe(
+          tap(response => {
+            this.projects = response;
+          }),
+          catchError(error => {
+            console.error("Could not get projects", error);
+            return of(null);
+          })
+        ).subscribe();
+      },
+      error => console.error(error + "delete project")
+    );
+  }
 }

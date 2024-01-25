@@ -6,8 +6,7 @@ import { AiModel } from '../../interfaces/ai_model';
 
 import { FormsModule } from '@angular/forms';
 
-import { MatDialogRef } from '@angular/material/dialog';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogRef, MatDialogModule, } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';

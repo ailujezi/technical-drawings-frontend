@@ -53,4 +53,9 @@ export class ProjectService {
     return this.http.delete(`${url}/${projectId}/images/${imageId}`);
   }
 
+  deleteProject(projectId: number) {
+    const url = 'store/projects'
+    return this.http.delete(`${url}/${projectId}`);
+  }
+
 }
