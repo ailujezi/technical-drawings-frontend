@@ -27,12 +27,13 @@ export class ProjectListComponent implements OnInit{
   constructor(public dialog: MatDialog, private projectService: ProjectService) {}
 
   projects: Project[] = []; 
-  
+  selectedProject?: Project;
 
   @Output() projectSelected = new EventEmitter<Project>();
 
   //If selected project changes emit to parent (mainview)
   selectProject(project: Project): void {
+    this.selectedProject = project;
     this.projectSelected.emit(project);
   }
 
@@ -47,6 +48,12 @@ export class ProjectListComponent implements OnInit{
       })
     ).subscribe();
 
+  }
+
+  isSelected(project: Project): boolean {
+    if (this.selectedProject)
+      return this.selectedProject && this.selectedProject.id === project.id;
+    return false;
   }
 
   openCreateProjectDialog(): void {

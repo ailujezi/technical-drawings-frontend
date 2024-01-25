@@ -19,14 +19,6 @@
     scrollbar-gutter: stable;
 }
 
-.project-mat-list {
-    width: calc(100% - 20px);
-}
-
-mat-list-item:hover, .mat-list-item:hover {
-    background-color: darkgray;
-}
-
 
 .project-mat-list mat-list-item {
     background-color: #e7e7e7;
@@ -35,4 +27,13 @@ mat-list-item:hover, .mat-list-item:hover {
     box-sizing: border-box;
     overflow: auto;
     width: 90%;
+}
+
+.project-mat-list mat-list-item:hover {
+    background-color: dimgray;
+    cursor: pointer;
+}
+
+.selected-project {
+    background-color: darkgray !important;
 }
