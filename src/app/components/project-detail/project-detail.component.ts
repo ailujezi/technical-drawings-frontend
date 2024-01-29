@@ -19,6 +19,7 @@ import { of } from 'rxjs'
 
 import { interval } from 'rxjs';
 import { switchMap, takeWhile } from 'rxjs/operators';
+import { InformationExchangeService } from '../../services/information-exchange.service';
 
 
 @Component({
@@ -32,7 +33,7 @@ export class ProjectDetailComponent implements OnChanges{
   //Get selectedproject from Parent(mainview)
   @Input() selectedProject?: Project;
 
-  constructor(private projectService: ProjectService, private resultService: ResultsService, public dialog: MatDialog) { }
+  constructor(private projectService: ProjectService, private resultService: ResultsService, public dialog: MatDialog, private informationExchangeService: InformationExchangeService) { }
 
   images: Image[] = [];
   aiModelName: string = "";
@@ -69,18 +70,6 @@ export class ProjectDetailComponent implements OnChanges{
       }
     }
   }
-
-  scrollLeft(): void {
-    const gallery = document.querySelector('.gallery');
-    if (gallery)
-      gallery.scrollBy({ left: -gallery.clientWidth / 5, behavior: 'smooth' });
-  }
-
-  scrollRight(): void {
-    const gallery = document.querySelector('.gallery');
-    if (gallery)
-      gallery.scrollBy({ left: gallery.clientWidth / 5, behavior: 'smooth' });
-  }
   selectedFiles: File[] = [];
 
   onFilesSelected(event: Event): void {
@@ -109,6 +98,7 @@ export class ProjectDetailComponent implements OnChanges{
       if (this.selectedProject && this.selectedProject.id !== undefined) {
         this.projectService.uploadImage(this.selectedProject?.id, formData).subscribe(
           response => {
+            this.informationExchangeService.executeFunction.emit();
             console.log('Image uploaded successfully!');
             this.loadImages();
           },
@@ -148,32 +138,67 @@ export class ProjectDetailComponent implements OnChanges{
   startVisualization() {
     if (this.selectedProject) {
       const currentProjectId = this.selectedProject.id;
-      this.resultService.startVisualization(this.selectedProject.id).pipe(
+      if (this.images.length == 0) return;
+      this.resultService.startVisualization(currentProjectId).pipe(
           tap(response => {
-              const pollingInterval = 1000;
-              interval(pollingInterval).pipe(
-                  switchMap(() => this.projectService.getProject(currentProjectId)),
-                  takeWhile(project => this.checkCondition(project), true)
-              ).subscribe(project => {
-                  if (!this.checkCondition(project)) {
-                      console.log('Visualization Completed');
-                  }
-                  else {
-                  }
-              });
+            this.informationExchangeService.addEntry(currentProjectId, true);
+            const pollingInterval = 1000;
+            interval(pollingInterval).pipe(
+                switchMap(() => this.projectService.getProject(currentProjectId)),
+                takeWhile(project => this.checkCondition(project), true)
+            ).subscribe(project => {
+                if (!this.checkCondition(project)) {
+                  this.informationExchangeService.removeEntry(currentProjectId);
+                  this.informationExchangeService.executeFunction.emit();
+                  console.log('Visualization Completed');
+                }
+                else {
+                }
+            });
           }),
           catchError(error => {
-              console.error("Could not start visualization", error);
+            this.informationExchangeService.removeEntry(currentProjectId);
+            console.error("Could not start visualization", error);
               return of(null);
           })
       ).subscribe();
     }
-}
+  }
 
-checkCondition(project: Project): boolean {
-    if (project.status == 'COMPLETED') {
-      return false;
+  startVisualizationRest() {
+    if (this.selectedProject) {
+      const currentProjectId = this.selectedProject.id;
+      if (this.images.length == 0) return;
+      this.resultService.startVisualizationRest(currentProjectId).pipe(
+          tap(response => {
+            this.informationExchangeService.addEntry(currentProjectId, true);
+            const pollingInterval = 1000;
+            interval(pollingInterval).pipe(
+                switchMap(() => this.projectService.getProject(currentProjectId)),
+                takeWhile(project => this.checkCondition(project), true)
+            ).subscribe(project => {
+                if (!this.checkCondition(project)) {
+                  this.informationExchangeService.removeEntry(currentProjectId);
+                  this.informationExchangeService.executeFunction.emit();
+                  console.log('Visualization Completed');
+                }
+                else {
+                }
+            });
+          }),
+          catchError(error => {
+            this.informationExchangeService.removeEntry(currentProjectId);
+            console.error("Could not start visualization", error);
+              return of(null);
+          })
+      ).subscribe();
     }
-    return true;
-}
+  }
+
+  checkCondition(project: Project): boolean {
+      if (project.status == 'COMPLETED') {
+        return false;
+      }
+      return true;
+  }
 }

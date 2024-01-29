@@ -1,10 +1,4 @@
-.arrow.left {
-    left: 0;
-}
 
-.arrow.right {
-    right: 0;
-}
 
 .delete-image-container {
     position: relative;
@@ -43,6 +37,7 @@ img {
     display: flex;
     overflow-x: auto;
     width: 100%;
+    scrollbar-width: thin;
 }
 
 .gallery div {

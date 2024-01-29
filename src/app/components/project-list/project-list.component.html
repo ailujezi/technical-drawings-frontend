@@ -5,7 +5,9 @@
     <mat-list-item [class.selected-project]="isSelected(project)" class="mat-list-item" *ngFor="let project of projects" (click)="selectProject(project)">
       <div class="delete-icon" (click)="openDialog(project)">X</div>
       <span matListItemTitle>{{ project.name }}</span>
-      <span>{{ project.description }}</span>
+      <span matListItemLine style="white-space: nowrap;">{{ project.description }}
+        <mat-spinner *ngIf="isVisualized(project)" diameter="20" class="list-spinner"></mat-spinner>
+      </span>
     </mat-list-item>
   </mat-list>
 </div>

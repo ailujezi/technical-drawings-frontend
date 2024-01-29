@@ -1,7 +1,9 @@
-import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input, OnDestroy } from '@angular/core';
 import { Project } from '../../interfaces/project';
 import { ProjectService } from '../../services/project.service';
 import { CommonModule } from '@angular/common';
+import { InformationExchangeService } from '../../services/information-exchange.service';
+import { Subscription } from 'rxjs';
 
 import {MatIconModule} from '@angular/material/icon'; 
 import {MatCardModule} from '@angular/material/card'; 
@@ -9,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import {MatListModule} from '@angular/material/list'; 
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 
 import { CreateProjectComponent } from '../create-project/create-project.component';
 import { DeleteProjectComponent } from '../delete-project/delete-project.component';
@@ -18,16 +21,18 @@ import { of } from 'rxjs'
 @Component({
   selector: 'app-project-list',
   standalone: true,
-  imports: [ CommonModule, MatCardModule, MatButtonModule, MatDialogModule, MatListModule, CreateProjectComponent, MatIconModule],
+  imports: [ CommonModule, MatCardModule, MatButtonModule, MatDialogModule, MatListModule, CreateProjectComponent, MatIconModule, MatProgressSpinnerModule],
   templateUrl: './project-list.component.html',
   styleUrl: './project-list.component.scss'
 })
 export class ProjectListComponent implements OnInit{
-
-  constructor(public dialog: MatDialog, private projectService: ProjectService) {}
+  
+  constructor(public dialog: MatDialog, private projectService: ProjectService, private informationExchangeService: InformationExchangeService) {
+  }
 
   projects: Project[] = []; 
   selectedProject?: Project;
+  projectBeingVisualized?: Project;
 
   @Output() projectSelected = new EventEmitter<Project>();
 
@@ -53,6 +58,12 @@ export class ProjectListComponent implements OnInit{
   isSelected(project: Project): boolean {
     if (this.selectedProject)
       return this.selectedProject && this.selectedProject.id === project.id;
+    return false;
+  }
+
+  isVisualized(project: Project): boolean {
+    if ((this.informationExchangeService.getEntry(project.id) !== undefined) && this.informationExchangeService.getEntry(project.id))
+      return true;
     return false;
   }
 
@@ -95,6 +106,8 @@ export class ProjectListComponent implements OnInit{
   deleteProject(project: Project): void {
     this.projectService.deleteProject(project.id).subscribe(
       response => {
+        this.informationExchangeService.removeEntry(project.id);
+
         this.projectService.getProjects().pipe(
           tap(response => {
             this.projects = response;

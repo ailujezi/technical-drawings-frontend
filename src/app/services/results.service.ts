@@ -21,6 +21,11 @@ export class ResultsService {
     return this.http.post(`${url}/${projectId}/start`, null);
   }
 
+  startVisualizationRest(projectId: number) {
+    const url = 'store/projects';
+    return this.http.post(`${url}/${projectId}/start_rest`, null);
+  }
+
   getOverlays(projectId: number): Observable<Results[]> {
     const url = 'store/projects';
     return this.http.get<Results[]>(`${url}/${projectId}/results`);

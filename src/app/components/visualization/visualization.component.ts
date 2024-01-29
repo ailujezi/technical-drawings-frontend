@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Project } from '../../interfaces/project';
 import { Image } from '../../interfaces/image';
@@ -6,6 +6,8 @@ import { Results } from '../../interfaces/results';
 import { OverlayRecognition } from '../../interfaces/overlay_recognition';
 import { ProjectService } from '../../services/project.service';
 import { ResultsService } from '../../services/results.service';
+import { InformationExchangeService } from '../../services/information-exchange.service';
+import { Subscription } from 'rxjs';
 
 import {MatIconModule} from '@angular/material/icon'; 
 import { SecurePipe } from '../../pipes/secure.pipe';
@@ -22,10 +24,15 @@ import { of } from 'rxjs'
   templateUrl: './visualization.component.html',
   styleUrl: './visualization.component.scss'
 })
-export class VisualizationComponent {
+export class VisualizationComponent implements OnDestroy {
   @Input() selectedProject?: Project;
 
-  constructor(private projectService: ProjectService, private resultsService: ResultsService) { }
+  private subscription: Subscription;
+
+  constructor(private projectService: ProjectService, private resultsService: ResultsService, private informationExchangeService: InformationExchangeService) { 
+    this.subscription = this.informationExchangeService.executeFunction.subscribe(() => {
+      this.loadImages();
+    });  }
 
   isVisualized: boolean = false;
   images: Image[] = [];
@@ -61,6 +68,10 @@ export class VisualizationComponent {
         this.loadImages();
       }
     }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   //If status of project is COMPLETED: get Overlays. 
