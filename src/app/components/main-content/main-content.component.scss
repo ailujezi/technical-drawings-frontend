@@ -13,3 +13,7 @@ app-project-detail {
     padding-left: 30px;
     width: 100%;
 }
+
+:host ::ng-deep .tab-group-container .mat-mdc-tab-body-content {
+    scrollbar-gutter: stable;
+}

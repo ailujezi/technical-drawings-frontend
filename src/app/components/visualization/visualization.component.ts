@@ -9,6 +9,7 @@ import { ResultsService } from '../../services/results.service';
 import { InformationExchangeService } from '../../services/information-exchange.service';
 import { Subscription } from 'rxjs';
 
+import {MatListModule} from '@angular/material/list'; 
 import {MatIconModule} from '@angular/material/icon'; 
 import { SecurePipe } from '../../pipes/secure.pipe';
 
@@ -20,7 +21,7 @@ import { of } from 'rxjs'
 @Component({
   selector: 'app-visualization',
   standalone: true,
-  imports: [ CommonModule, MatIconModule, SecurePipe],
+  imports: [ CommonModule, MatIconModule, SecurePipe, MatListModule],
   templateUrl: './visualization.component.html',
   styleUrl: './visualization.component.scss'
 })
@@ -39,11 +40,23 @@ export class VisualizationComponent implements OnDestroy {
   overlays: OverlayRecognition[] = [];
   responseData?: Results[]; 
 
+  selectedOverlay?: OverlayRecognition;
+
   selectedImage?: Image;
 
   selectImage(image: Image) {
     this.getOverlaysForCurrentImg(image);
     this.selectedImage = image;
+  }
+
+  selectOverlay(overlay: OverlayRecognition){
+    this.selectedOverlay = overlay;
+  }
+
+  isSelected(overlay: OverlayRecognition) {
+    if (this.selectedOverlay)
+      return this.selectedOverlay === overlay;
+    return false;
   }
 
   ngOnInit() {
@@ -156,7 +169,7 @@ export class VisualizationComponent implements OnDestroy {
       'top.px': top,
       'width.px': width,
       'height.px': height,
-      'border': '5px solid Red',
+      'border': '2px solid rgba(255, 102, 0, .5)',
       'z-index': '10',
     };
   }

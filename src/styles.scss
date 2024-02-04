@@ -10,13 +10,6 @@ body {
 }
 
 
-.main-container {
-    display: flex;
-    height: calc(100% - 60px);
-    width: 100%; 
-}
-
-
 
 .create-project mat-form-field {
     margin-left: 25px;
@@ -46,4 +39,8 @@ img {
 //workaround vor material bug https://github.com/angular/components/issues/27118
 .mat-mdc-button-touch-target {
     height: inherit !important;
+}
+
+* {
+    scrollbar-width: thin;
 }

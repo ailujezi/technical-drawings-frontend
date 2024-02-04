@@ -1,6 +1,4 @@
-//.main-content {
-//    width: 100%;
-//}
+
 
 app-header {
     width: 100%;
@@ -23,4 +21,10 @@ app-project-list {
 .main-content.full-width {
     flex: 0 0 100%;
     max-width: 100%;
+}
+
+.main-container {
+    display: flex;
+    height: calc(100% - 60px);
+    width: 100%; 
 }

@@ -19,7 +19,6 @@ img {
     overflow-x: auto;
     width: 100%;
     scroll-behavior: smooth;
-    scrollbar-width: thin;
 }
 
 .gallery div {
@@ -30,6 +29,8 @@ img {
 
 .selected-image-container {
     position: relative;
+    flex-grow: 1;
+    height: 100%;
 }
 
 .gallery-container {
@@ -38,4 +39,42 @@ img {
 
 .gallery-and-button-container {
     display:flex;
+}
+
+.selected-overlay {
+    border: 5px solid red !important;
+}
+
+.selected-overlay-list {
+    background-color: darkgray !important;
+}
+
+.mat-list-item {
+    background-color: #e7e7e7;
+    border-radius: 10px;
+    box-sizing: border-box;
+    overflow: auto;
+    width: 90%;
+    margin: 1%;
+}
+
+.overlays-mat-list mat-list-item:hover {
+    background-color: dimgray;
+    cursor: pointer;
+}
+
+.selcted-image-overlays-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.selected-image-container {
+    flex-grow: 1; 
+}
+
+.overlays-container {
+    flex: 0 0 20%;
+    max-width: 20%;
+    height: 100%;
+    margin-left: 10px;
 }
