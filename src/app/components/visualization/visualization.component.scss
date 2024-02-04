@@ -18,22 +18,27 @@ img {
     display: flex;
     overflow-x: auto;
     width: 100%;
+    height: 130px;
     scroll-behavior: smooth;
+    padding: 5px;
 }
 
 .gallery div {
     flex: 0 0 10%; 
     box-sizing: border-box;
-    padding: 5px;
+    padding-right: 5px;
+    overflow: hidden;
 }
 
 .selected-image-container {
     position: relative;
-    flex-grow: 1;
-    height: 100%;
+    height: unset;
+    overflow: auto;
+    scrollbar-width: none;
 }
 
 .gallery-container {
+    height: 100%;
     margin-right: 30px;
 }
 
@@ -54,8 +59,12 @@ img {
     border-radius: 10px;
     box-sizing: border-box;
     overflow: auto;
-    width: 90%;
+    width: 95%;
     margin: 1%;
+}
+
+.overlays-mat-list {
+    height: 100%;
 }
 
 .overlays-mat-list mat-list-item:hover {
@@ -64,6 +73,7 @@ img {
 }
 
 .selcted-image-overlays-container {
+    height: calc(100% - 130px);
     display: flex;
     justify-content: space-between;
 }
@@ -73,8 +83,8 @@ img {
 }
 
 .overlays-container {
-    flex: 0 0 20%;
-    max-width: 20%;
+    width: 25%;
     height: 100%;
     margin-left: 10px;
+    overflow: auto;
 }
