@@ -12,8 +12,8 @@ import {MatButtonModule} from '@angular/material/button';
   selector: 'app-delete-message',
   standalone: true,
   imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent],
-  templateUrl: './delete-message.component.html',
-  styleUrl: './delete-message.component.scss'
+  templateUrl: './delete-image.component.html',
+  styleUrl: './delete-image.component.scss'
 })
 export class DeleteMessageComponent {
   @Output() deleteClickedYes = new EventEmitter<void>();

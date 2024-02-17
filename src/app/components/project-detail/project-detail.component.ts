@@ -6,7 +6,7 @@ import { ProjectService } from '../../services/project.service';
 import { ResultsService } from '../../services/results.service';
 import { FormsModule } from '@angular/forms';
 import { AiModel } from '../../interfaces/ai_model';
-import { DeleteMessageComponent } from '../delete-message/delete-message.component';
+import { DeleteMessageComponent } from '../delete-image/delete-image.component';
 
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -38,6 +38,7 @@ export class ProjectDetailComponent implements OnChanges{
   images: Image[] = [];
   aiModelName: string = "";
   aiModels: AiModel[] = []; 
+  isVisualized: boolean = false;
 
 
   ngOnInit() {
@@ -81,9 +82,13 @@ export class ProjectDetailComponent implements OnChanges{
 
   loadImages(): void {
     if (this.selectedProject && this.selectedProject.id !== undefined) {
-      this.projectService.getImages(this.selectedProject.id).subscribe(
-        data => this.images = data,
-        error => console.error(error)
+      this.projectService.getImages(this.selectedProject.id).pipe(
+        catchError(error => {
+          console.error(error);
+          return of([]);
+        })
+      ).subscribe(
+        data => this.images = data
       );
     } else {
       console.error('Selected project is undefined (loadImages)');
@@ -99,6 +104,7 @@ export class ProjectDetailComponent implements OnChanges{
         this.projectService.uploadImage(this.selectedProject?.id, formData).subscribe(
           response => {
             this.informationExchangeService.executeFunction.emit();
+
             console.log('Image uploaded successfully!');
             this.loadImages();
           },
@@ -115,6 +121,8 @@ export class ProjectDetailComponent implements OnChanges{
 
       this.projectService.deleteImg(image.project_id, image.id).subscribe(
         response => {
+          this.informationExchangeService.executeFunction.emit();
+
           this.loadImages();
         },
         error => console.error(error + "delete image")
@@ -149,7 +157,7 @@ export class ProjectDetailComponent implements OnChanges{
             ).subscribe(project => {
                 if (!this.checkCondition(project)) {
                   this.informationExchangeService.removeEntry(currentProjectId);
-                  this.informationExchangeService.executeFunction.emit();
+                  this.isVisualized = true;
                   console.log('Visualization Completed');
                 }
                 else {
@@ -162,6 +170,7 @@ export class ProjectDetailComponent implements OnChanges{
               return of(null);
           })
       ).subscribe();
+      this.informationExchangeService.executeFunction.emit();
     }
   }
 
@@ -179,7 +188,6 @@ export class ProjectDetailComponent implements OnChanges{
             ).subscribe(project => {
                 if (!this.checkCondition(project)) {
                   this.informationExchangeService.removeEntry(currentProjectId);
-                  this.informationExchangeService.executeFunction.emit();
                   console.log('Visualization Completed');
                 }
                 else {
@@ -192,6 +200,7 @@ export class ProjectDetailComponent implements OnChanges{
               return of(null);
           })
       ).subscribe();
+      this.informationExchangeService.executeFunction.emit();
     }
   }
 
@@ -201,4 +210,5 @@ export class ProjectDetailComponent implements OnChanges{
       }
       return true;
   }
+
 }

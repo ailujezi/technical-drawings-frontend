@@ -33,7 +33,8 @@ export class VisualizationComponent implements OnDestroy {
   constructor(private projectService: ProjectService, private resultsService: ResultsService, private informationExchangeService: InformationExchangeService) { 
     this.subscription = this.informationExchangeService.executeFunction.subscribe(() => {
       this.loadImages();
-    });  }
+    });  
+  }
 
   isVisualized: boolean = false;
   images: Image[] = [];
@@ -78,6 +79,7 @@ export class VisualizationComponent implements OnDestroy {
         const newProject = change.currentValue as Project;
         this.selectedImage = undefined;
         this.images = [];
+        this.overlays = [];
         this.loadImages();
       }
     }
@@ -87,10 +89,21 @@ export class VisualizationComponent implements OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  //If status of project is COMPLETED: get Overlays. 
   //Gets images from server.
   loadImages(): void {
     if (this.selectedProject && this.selectedProject.id !== undefined) {
+      this.projectService.getImages(this.selectedProject.id).pipe(
+        tap(data => {
+          this.images = data;
+          console.log('Daten erfolgreich geladen (visualization)');
+        }),
+        catchError(error => {
+          // Fehlerbehandlung
+          console.error(error);
+          return of([]);
+        })
+      ).subscribe();
+      //If status of project is COMPLETED: get Overlays. 
       if (this.selectedProject.status == 'COMPLETED') {
         this.isVisualized = true;
         this.getResults();
@@ -98,13 +111,10 @@ export class VisualizationComponent implements OnDestroy {
       else {
         this.isVisualized = false;
       }
-      this.projectService.getImages(this.selectedProject.id).subscribe(
-        data => this.images = data,
-        error => console.error(error)
-      );
     } else {
       console.error('Selected project is undefined (loadImages)');
     }
+    this.reloadGallery;
   }
 
   //Gets Overlays from server. 
@@ -113,7 +123,6 @@ export class VisualizationComponent implements OnDestroy {
       this.resultsService.getOverlays(this.selectedProject.id).pipe(
           tap(response => {
             if (response) {
-              //response is Array (interface ResultsArray)
               this.responseData = response;
             }       
           }),
@@ -150,7 +159,7 @@ export class VisualizationComponent implements OnDestroy {
     }
   }
 
-  //Styles for overlays have to be created dynamic
+  //Styles for overlays have to be created dynamically
   getOverlayStyle(imageElement: HTMLImageElement, overlay: any) {
     const originalWidth = imageElement.naturalWidth;
     const originalHeight = imageElement.naturalHeight;
@@ -183,6 +192,14 @@ export class VisualizationComponent implements OnDestroy {
 
   reloadLables() {
     var container = document.getElementById("overlays");
+    if (container) {
+      var content = container.innerHTML;
+      container.innerHTML= content; 
+    }
+  }
+
+  reloadGallery() {
+    var container = document.getElementById("visualization-Gallery");
     if (container) {
       var content = container.innerHTML;
       container.innerHTML= content; 

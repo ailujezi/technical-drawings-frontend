@@ -34,7 +34,7 @@ export class LoginComponent {
       }),
       catchError(error => {
         console.error("No User with that data", error);
-        return of(null); // Return an observable to complete the pipe
+        return of(null);
       })
     ).subscribe();
   }

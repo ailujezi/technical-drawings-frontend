@@ -1,17 +1,19 @@
-<div class="login-container" style="text-align: center;">
-    <form (ngSubmit)="onLogin()">
-        <div>
-            <label>Username:</label>
-            <br>
-            <input type="text" [(ngModel)]="loginData.username" name="username" required>
-        </div>
-        <div>
-            <label>Password:</label>
-            <br>
-            <input type="password" [(ngModel)]="loginData.password" name="password" required>
-        </div>
-        <button mat-raised-button color="primary" type="submit">Anmelden</button>   
-    </form>
-    <br>
-    <a (click)="goToRegister()" style="color: rgb(141, 174, 16)">Noch kein Konto?</a>
+<div class="top-container">
+    <div class="login-container" style="text-align: center;">
+        <form (ngSubmit)="onLogin()">
+            <div>
+                <label>Username:</label>
+                <br>
+                <input type="text" [(ngModel)]="loginData.username" name="username" required>
+            </div>
+            <div>
+                <label>Password:</label>
+                <br>
+                <input type="password" [(ngModel)]="loginData.password" name="password" required>
+            </div>
+            <button mat-raised-button color="primary" type="submit">Anmelden</button>   
+        </form>
+        <br>
+        <a (click)="goToRegister()" style="color: rgb(141, 174, 16)">Noch kein Konto?</a>
+    </div>
 </div>

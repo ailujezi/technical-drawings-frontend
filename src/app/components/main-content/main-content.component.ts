@@ -13,6 +13,4 @@ import { VisualizationComponent } from '../visualization/visualization.component
 })
 export class MainContentComponent {
   @Input() selectedProject?: Project;
-
-
 }
