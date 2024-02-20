@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Project } from '../../interfaces/project';
 import { Image } from '../../interfaces/image';
@@ -8,6 +8,7 @@ import { ProjectService } from '../../services/project.service';
 import { ResultsService } from '../../services/results.service';
 import { InformationExchangeService } from '../../services/information-exchange.service';
 import { Subscription } from 'rxjs';
+import { SelectedProjectService } from '../../services/selected-project.service';
 
 import {MatListModule} from '@angular/material/list'; 
 import {MatIconModule} from '@angular/material/icon'; 
@@ -25,13 +26,14 @@ import { of } from 'rxjs'
   templateUrl: './visualization.component.html',
   styleUrl: './visualization.component.scss'
 })
-export class VisualizationComponent implements OnDestroy {
-  @Input() selectedProject?: Project;
+export class VisualizationComponent implements OnInit, OnDestroy {
+  selectedProject?: Project;
+  private selectedProjectSubscription = new Subscription();
 
-  private subscription: Subscription;
+  private loadImagesSubscription: Subscription;
 
-  constructor(private projectService: ProjectService, private resultsService: ResultsService, private informationExchangeService: InformationExchangeService) { 
-    this.subscription = this.informationExchangeService.executeFunction.subscribe(() => {
+  constructor(private projectService: ProjectService, private resultsService: ResultsService, private informationExchangeService: InformationExchangeService, private selectedProjectService: SelectedProjectService) { 
+    this.loadImagesSubscription = this.informationExchangeService.executeFunction.subscribe(() => {
       this.loadImages();
     });  
   }
@@ -61,6 +63,15 @@ export class VisualizationComponent implements OnDestroy {
   }
 
   ngOnInit() {
+    this.selectedProjectSubscription = this.selectedProjectService.getSelectedProject().subscribe(project => {
+      this.selectedProject = project;
+      this.loadImages();
+      this.selectedImage = undefined;
+      this.overlays = [];
+      if (this.selectedProject)
+        console.log("sp: " + this.selectedProject.name + "i    mgs: " + this.images.length);
+    });
+
     this.loadImages();
   }
 
@@ -86,7 +97,8 @@ export class VisualizationComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.selectedProjectSubscription.unsubscribe();
+    this.loadImagesSubscription.unsubscribe();
   }
 
   //Gets images from server.

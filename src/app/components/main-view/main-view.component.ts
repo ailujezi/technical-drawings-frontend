@@ -20,12 +20,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 export class MainViewComponent {
   title = 'technical-drawings-frontend';
 
-  selectedProject?: Project;
   isMenuOpenValue?: boolean = true;
-
-  onProjectSelected(project: Project): void {
-    this.selectedProject = project;
-  }
 
   onMenuOpenChanged(isMenuOpen: boolean): void {
     this.isMenuOpenValue = isMenuOpen;

@@ -3,7 +3,7 @@ import { Project } from '../../interfaces/project';
 import { ProjectService } from '../../services/project.service';
 import { CommonModule } from '@angular/common';
 import { InformationExchangeService } from '../../services/information-exchange.service';
-import { Subscription } from 'rxjs';
+import { SelectedProjectService} from '../../services/selected-project.service';
 
 import {MatIconModule} from '@angular/material/icon'; 
 import {MatCardModule} from '@angular/material/card'; 
@@ -27,7 +27,7 @@ import { of } from 'rxjs'
 })
 export class ProjectListComponent implements OnInit{
   
-  constructor(public dialog: MatDialog, private projectService: ProjectService, private informationExchangeService: InformationExchangeService) {
+  constructor(public dialog: MatDialog, private projectService: ProjectService, private informationExchangeService: InformationExchangeService, private selectedProjectService: SelectedProjectService) {
   }
 
   projects: Project[] = []; 
@@ -39,7 +39,7 @@ export class ProjectListComponent implements OnInit{
   //If selected project changes emit to parent (mainview)
   selectProject(project: Project): void {
     this.selectedProject = project;
-    this.projectSelected.emit(project);
+    this.selectedProjectService.setSelectedProject(project);
   }
 
   ngOnInit(): void {

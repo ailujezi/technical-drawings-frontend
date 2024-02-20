@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Project } from '../../interfaces/project';
 import { Image } from '../../interfaces/image';
@@ -7,6 +7,7 @@ import { ResultsService } from '../../services/results.service';
 import { FormsModule } from '@angular/forms';
 import { AiModel } from '../../interfaces/ai_model';
 import { DeleteMessageComponent } from '../delete-image/delete-image.component';
+import { Subscription } from 'rxjs';
 
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,6 +21,7 @@ import { of } from 'rxjs'
 import { interval } from 'rxjs';
 import { switchMap, takeWhile } from 'rxjs/operators';
 import { InformationExchangeService } from '../../services/information-exchange.service';
+import { SelectedProjectService } from '../../services/selected-project.service';
 
 
 @Component({
@@ -29,19 +31,27 @@ import { InformationExchangeService } from '../../services/information-exchange.
   templateUrl: './project-detail.component.html',
   styleUrl: './project-detail.component.scss'
 })
-export class ProjectDetailComponent implements OnChanges{
-  //Get selectedproject from Parent(mainview)
-  @Input() selectedProject?: Project;
+export class ProjectDetailComponent implements OnChanges, OnInit, OnDestroy{
+  selectedProject?: Project;
+  private selectedProjectSubscription = new Subscription();
 
-  constructor(private projectService: ProjectService, private resultService: ResultsService, public dialog: MatDialog, private informationExchangeService: InformationExchangeService) { }
+  constructor(private projectService: ProjectService, private resultService: ResultsService, public dialog: MatDialog, private informationExchangeService: InformationExchangeService, private selectedProjectService: SelectedProjectService) { }
+
 
   images: Image[] = [];
   aiModelName: string = "";
   aiModels: AiModel[] = []; 
   isVisualized: boolean = false;
 
-
+  ngOnDestroy() {
+    this.selectedProjectSubscription.unsubscribe();
+  }
   ngOnInit() {
+    this.selectedProjectSubscription = this.selectedProjectService.getSelectedProject().subscribe(project => {
+      this.selectedProject = project;
+      this.loadImages();
+    });
+
     //Get AIModels on init
     this.loadImages();
     this.projectService.getAIModels().pipe(

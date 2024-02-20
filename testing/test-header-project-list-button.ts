@@ -1,7 +1,7 @@
 import {  By, until ,WebDriver } from 'selenium-webdriver';
 
 
-export async function checkHeaderProjektList(driver: WebDriver): Promise<void> {
+export async function checkHeaderProjectList(driver: WebDriver): Promise<void> {
 
     try {
         await driver.get("http://localhost:4200");
@@ -38,7 +38,7 @@ export async function checkHeaderProjektList(driver: WebDriver): Promise<void> {
         }
 
     } catch (error) {
-        console.error("Ein Fehler ist aufgetreten während des Tests:", error);
+        console.error("Während des Tests ist ein Fehler aufgetreten:", error);
     } finally {
         await driver.quit();
     }

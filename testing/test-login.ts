@@ -19,6 +19,8 @@ export async function checkLogin(driver: WebDriver): Promise<void> {
             console.log("Login fehlgeschlagen.");
         }
 
+    } catch (error) {
+        console.error("Während des Tests ist ein Fehler aufgetreten:", error);
     } finally {
         await driver.quit();
     }

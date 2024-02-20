@@ -7,7 +7,7 @@
       <h3>Visualized: </h3>
     </div>
     <div class="bottom-div">
-      <h1>{{ selectedProject.name }}</h1>
+      <h1 id="project-name">{{ selectedProject.name }}</h1>
       <h3>{{ selectedProject.description}}</h3>
       <h3>{{ aiModelName}}</h3>
       <div *ngIf="isVisualized == false">Not yet visualized</div>
