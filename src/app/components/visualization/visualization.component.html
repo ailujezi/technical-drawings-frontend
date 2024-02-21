@@ -1,8 +1,8 @@
-<div *ngIf="selectedProject && isVisualized" class="visualization-container">
+<div *ngIf="selectedProject" class="visualization-container">
     <div class="gallery-container">
-        <div class="gallery">
+        <div *ngIf="shouldShowImages" class="gallery">
             <div *ngFor="let image of images" class="thumbnail" (click)="selectImage(image)">
-                <img id="visualization-gallery" [attr.src]="image.image_url | secure | async" [alt]="image.name"/>
+                <img *ngIf="image.has_result" id="visualization-gallery" [attr.src]="image.image_url | secure | async" [alt]="image.name"/>
             </div>
         </div>
         <div class="selcted-image-overlays-container">

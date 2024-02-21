@@ -37,6 +37,7 @@ export class LoginComponent {
         return of(null);
       })
     ).subscribe();
+  
   }
 
   goToRegister(): void {

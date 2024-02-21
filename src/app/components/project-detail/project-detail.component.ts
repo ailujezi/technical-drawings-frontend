@@ -168,6 +168,7 @@ export class ProjectDetailComponent implements OnChanges, OnInit, OnDestroy{
                 if (!this.checkCondition(project)) {
                   this.informationExchangeService.removeEntry(currentProjectId);
                   this.isVisualized = true;
+                  this.informationExchangeService.executeFunction.emit();
                   console.log('Visualization Completed');
                 }
                 else {
@@ -180,7 +181,6 @@ export class ProjectDetailComponent implements OnChanges, OnInit, OnDestroy{
               return of(null);
           })
       ).subscribe();
-      this.informationExchangeService.executeFunction.emit();
     }
   }
 

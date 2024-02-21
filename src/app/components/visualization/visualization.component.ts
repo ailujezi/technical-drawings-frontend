@@ -34,11 +34,12 @@ export class VisualizationComponent implements OnInit, OnDestroy {
 
   constructor(private projectService: ProjectService, private resultsService: ResultsService, private informationExchangeService: InformationExchangeService, private selectedProjectService: SelectedProjectService) { 
     this.loadImagesSubscription = this.informationExchangeService.executeFunction.subscribe(() => {
+      this.images = [];
       this.loadImages();
     });  
   }
 
-  isVisualized: boolean = false;
+  shouldShowImages: boolean = true;
   images: Image[] = [];
   overlays: OverlayRecognition[] = [];
   responseData?: Results[]; 
@@ -68,22 +69,12 @@ export class VisualizationComponent implements OnInit, OnDestroy {
       this.loadImages();
       this.selectedImage = undefined;
       this.overlays = [];
-      if (this.selectedProject)
-        console.log("sp: " + this.selectedProject.name + "i    mgs: " + this.images.length);
     });
 
     this.loadImages();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    //If Project status is COMPLETED, the Project has been visualized
-    if (this.selectedProject && this.selectedProject.status == 'COMPLETED') {
-      this.isVisualized = true;
-    }
-    else {
-      this.isVisualized = false;
-    }
-
     if (changes['selectedProject']) {
       const change = changes['selectedProject'];
       if (change && !change.firstChange) {
@@ -115,14 +106,9 @@ export class VisualizationComponent implements OnInit, OnDestroy {
           return of([]);
         })
       ).subscribe();
-      //If status of project is COMPLETED: get Overlays. 
-      if (this.selectedProject.status == 'COMPLETED') {
-        this.isVisualized = true;
-        this.getResults();
-      }
-      else {
-        this.isVisualized = false;
-      }
+
+      this.getResults();
+
     } else {
       console.error('Selected project is undefined (loadImages)');
     }

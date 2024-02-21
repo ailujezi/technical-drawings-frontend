@@ -38,20 +38,22 @@ export class CreateProjectComponent {
       }),
       catchError(error => {
         console.error("Could not get AIModels", error);
-        return of(null); // Return an observable to complete the pipe
+        return of(null);
       })
     ).subscribe();
   }
 
   onSubmit(): void {
-    this.projectService.createProject(this.project).pipe(
-      tap(response => {
-      }),
-      catchError(error => {
-        console.error("Project could not be created", error);
-        return of(null); // Return an observable to complete the pipe
-      })
-    ).subscribe();
+    if ((this.project.name != '') && (this.project.ai_model_id != null)) {
+      this.projectService.createProject(this.project).pipe(
+        tap(response => {
+        }),
+        catchError(error => {
+          console.error("Project could not be created", error);
+          return of(null); 
+        })
+      ).subscribe();
+    }
     
     this.closeDialog();
   }
