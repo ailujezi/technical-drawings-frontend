@@ -12,5 +12,4 @@ import { VisualizationComponent } from '../visualization/visualization.component
   styleUrl: './main-content.component.scss'
 })
 export class MainContentComponent {
-  @Input() selectedProject?: Project;
 }

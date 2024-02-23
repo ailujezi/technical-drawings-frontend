@@ -9,6 +9,7 @@ import { AiModel } from '../../interfaces/ai_model';
 import { DeleteMessageComponent } from '../delete-image/delete-image.component';
 import { Subscription } from 'rxjs';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon'; 
@@ -35,7 +36,7 @@ export class ProjectDetailComponent implements OnChanges, OnInit, OnDestroy{
   selectedProject?: Project;
   private selectedProjectSubscription = new Subscription();
 
-  constructor(private projectService: ProjectService, private resultService: ResultsService, public dialog: MatDialog, private informationExchangeService: InformationExchangeService, private selectedProjectService: SelectedProjectService) { }
+  constructor(private projectService: ProjectService, private resultService: ResultsService, public dialog: MatDialog, private informationExchangeService: InformationExchangeService, private selectedProjectService: SelectedProjectService, private snackBar: MatSnackBar) { }
 
 
   images: Image[] = [];
@@ -51,18 +52,8 @@ export class ProjectDetailComponent implements OnChanges, OnInit, OnDestroy{
       this.selectedProject = project;
       this.loadImages();
     });
-
     //Get AIModels on init
-    this.loadImages();
-    this.projectService.getAIModels().pipe(
-      tap(response => {
-        this.aiModels = response;
-      }),
-      catchError(error => {
-        console.error("Could not get AIModels", error);
-        return of(null); // Return an observable to complete the pipe
-      })
-    ).subscribe();
+    this.getAIModels();
   }
 
   //When selctedproject changes then load new images and set AIModel name
@@ -93,6 +84,9 @@ export class ProjectDetailComponent implements OnChanges, OnInit, OnDestroy{
   loadImages(): void {
     if (this.selectedProject && this.selectedProject.id !== undefined) {
       this.projectService.getImages(this.selectedProject.id).pipe(
+        tap(data => {
+          console.log("Bilder erfolgreich geladen: ", data);
+        }),
         catchError(error => {
           console.error(error);
           return of([]);
@@ -100,8 +94,6 @@ export class ProjectDetailComponent implements OnChanges, OnInit, OnDestroy{
       ).subscribe(
         data => this.images = data
       );
-    } else {
-      console.error('Selected project is undefined (loadImages)');
     }
   }
 
@@ -111,15 +103,20 @@ export class ProjectDetailComponent implements OnChanges, OnInit, OnDestroy{
       formData.append('file', file, file.name);
 
       if (this.selectedProject && this.selectedProject.id !== undefined) {
-        this.projectService.uploadImage(this.selectedProject?.id, formData).subscribe(
-          response => {
+        this.projectService.uploadImage(this.selectedProject?.id, formData).pipe(
+          tap(response => {
             this.informationExchangeService.executeFunction.emit();
-
             console.log('Image uploaded successfully!');
             this.loadImages();
-          },
-          error => console.error(error)
-        );
+          }),
+          catchError(error => {
+            this.snackBar.open('Bilder konnten nicht hochgeladen werden!', 'Schließen', {
+              duration: 3000
+            });
+            console.error(error);
+            return of(null);
+          })
+        ).subscribe();
       }else {
         console.error('Selected project is undefined (uploadImage)');
       }
@@ -129,14 +126,19 @@ export class ProjectDetailComponent implements OnChanges, OnInit, OnDestroy{
   deleteImg(image: Image): void {
     if (this.selectedProject) {
 
-      this.projectService.deleteImg(image.project_id, image.id).subscribe(
-        response => {
+      this.projectService.deleteImg(image.project_id, image.id).pipe(
+        tap(respons => {
           this.informationExchangeService.executeFunction.emit();
-
           this.loadImages();
-        },
-        error => console.error(error + "delete image")
-      );
+        }),
+        catchError(error => {
+          this.snackBar.open('Bilde konnte nicht gelöscht werden!', 'Schließen', {
+            duration: 3000
+          });
+          console.error(error);
+          return of(null);
+        })
+      ).subscribe();
     }
   }
 
@@ -167,8 +169,8 @@ export class ProjectDetailComponent implements OnChanges, OnInit, OnDestroy{
             ).subscribe(project => {
                 if (!this.checkCondition(project)) {
                   this.informationExchangeService.removeEntry(currentProjectId);
-                  this.isVisualized = true;
                   this.informationExchangeService.executeFunction.emit();
+                  this.isVisualized = true;
                   console.log('Visualization Completed');
                 }
                 else {
@@ -177,8 +179,11 @@ export class ProjectDetailComponent implements OnChanges, OnInit, OnDestroy{
           }),
           catchError(error => {
             this.informationExchangeService.removeEntry(currentProjectId);
+            this.snackBar.open('Visualisierung konnte nicht gestartet werden!', 'Schließen', {
+              duration: 3000
+            });
             console.error("Could not start visualization", error);
-              return of(null);
+            return of(null);
           })
       ).subscribe();
     }
@@ -198,6 +203,8 @@ export class ProjectDetailComponent implements OnChanges, OnInit, OnDestroy{
             ).subscribe(project => {
                 if (!this.checkCondition(project)) {
                   this.informationExchangeService.removeEntry(currentProjectId);
+                  this.informationExchangeService.executeFunction.emit();
+                  this.isVisualized = true;
                   console.log('Visualization Completed');
                 }
                 else {
@@ -206,12 +213,26 @@ export class ProjectDetailComponent implements OnChanges, OnInit, OnDestroy{
           }),
           catchError(error => {
             this.informationExchangeService.removeEntry(currentProjectId);
+            this.snackBar.open('Visualisierung konnte nicht gestartet werden!', 'Schließen', {
+              duration: 3000
+            });
             console.error("Could not start visualization", error);
-              return of(null);
+            return of(null);
           })
       ).subscribe();
-      this.informationExchangeService.executeFunction.emit();
     }
+  }
+
+  getAIModels() {
+    this.projectService.getAIModels().pipe(
+      tap(response => {
+        this.aiModels = response;
+      }),
+      catchError(error => {
+        console.error("Could not get AIModels", error);
+        return of(null);
+      })
+    ).subscribe();
   }
 
   checkCondition(project: Project): boolean {

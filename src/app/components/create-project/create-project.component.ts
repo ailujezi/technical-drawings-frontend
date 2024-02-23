@@ -6,6 +6,7 @@ import { AiModel } from '../../interfaces/ai_model';
 
 import { FormsModule } from '@angular/forms';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogRef, MatDialogModule, } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -29,7 +30,7 @@ export class CreateProjectComponent {
 
   aiModels: AiModel[] = []; 
 
-  constructor(private projectService: ProjectService, public dialogRef: MatDialogRef<CreateProjectComponent>) {}
+  constructor(private projectService: ProjectService, public dialogRef: MatDialogRef<CreateProjectComponent>,  private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.projectService.getAIModels().pipe(
@@ -47,9 +48,15 @@ export class CreateProjectComponent {
     if ((this.project.name != '') && (this.project.ai_model_id != null)) {
       this.projectService.createProject(this.project).pipe(
         tap(response => {
+          this.snackBar.open('Projekt erfolgreich erstellt!', 'Schließen', {
+            duration: 3000 
+          });
         }),
         catchError(error => {
           console.error("Project could not be created", error);
+          this.snackBar.open('Projekt konnte nicht erstellt werden!', 'Schließen', {
+            duration: 3000
+          });
           return of(null); 
         })
       ).subscribe();
