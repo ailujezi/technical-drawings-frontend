@@ -32,7 +32,7 @@ import { SelectedProjectService } from '../../services/selected-project.service'
   templateUrl: './project-detail.component.html',
   styleUrl: './project-detail.component.scss'
 })
-export class ProjectDetailComponent implements OnChanges, OnInit, OnDestroy{
+export class ProjectDetailComponent implements OnInit, OnDestroy{
   selectedProject?: Project;
   private selectedProjectSubscription = new Subscription();
 
@@ -42,7 +42,6 @@ export class ProjectDetailComponent implements OnChanges, OnInit, OnDestroy{
   images: Image[] = [];
   aiModelName: string = "";
   aiModels: AiModel[] = []; 
-  isVisualized: boolean = false;
 
   ngOnDestroy() {
     this.selectedProjectSubscription.unsubscribe();
@@ -50,28 +49,18 @@ export class ProjectDetailComponent implements OnChanges, OnInit, OnDestroy{
   ngOnInit() {
     this.selectedProjectSubscription = this.selectedProjectService.getSelectedProject().subscribe(project => {
       this.selectedProject = project;
+      this.images = [];
       this.loadImages();
+      for (let i = 0; i < this.aiModels.length; i++) {
+        if (this.selectedProject?.ai_model_id == this.aiModels[i].id) {
+          this.aiModelName = this.aiModels[i].name;
+        }
+      }
     });
     //Get AIModels on init
     this.getAIModels();
   }
 
-  //When selctedproject changes then load new images and set AIModel name
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['selectedProject']) {
-      const change = changes['selectedProject'];
-      if (change && !change.firstChange) {
-        const newProject = change.currentValue as Project;
-        this.images = [];
-        this.loadImages();
-        for (let i = 0; i < this.aiModels.length; i++) {
-          if (this.selectedProject?.ai_model_id == this.aiModels[i].id) {
-            this.aiModelName = this.aiModels[i].name;
-          }
-        }
-      }
-    }
-  }
   selectedFiles: File[] = [];
 
   onFilesSelected(event: Event): void {
@@ -79,6 +68,33 @@ export class ProjectDetailComponent implements OnChanges, OnInit, OnDestroy{
     if (input.files) {
       this.selectedFiles = Array.from(input.files);
     }
+  }
+
+  isProjectVisualized(project: Project) {
+    if(this.images.length == 0) {
+      return false;
+    }
+    let isVisualized = true;
+
+    for (let i = 0; i < this.images.length; i++) {
+      if (this.images[i].has_result == false) {
+        isVisualized = false;
+      }
+    }
+    return isVisualized;
+  }
+
+  isProjectPartlyVisualized(project: Project) {
+
+    if(this.isProjectVisualized(project) || (this.images.length == 0)) {
+      return false;
+    }
+    for (let i = 0; i < this.images.length; i++) {
+      if (this.images[i].has_result == true) {
+        return true;
+      }
+    }
+    return false;
   }
 
   loadImages(): void {
@@ -170,7 +186,6 @@ export class ProjectDetailComponent implements OnChanges, OnInit, OnDestroy{
                 if (!this.checkCondition(project)) {
                   this.informationExchangeService.removeEntry(currentProjectId);
                   this.informationExchangeService.executeFunction.emit();
-                  this.isVisualized = true;
                   console.log('Visualization Completed');
                 }
                 else {
@@ -204,7 +219,6 @@ export class ProjectDetailComponent implements OnChanges, OnInit, OnDestroy{
                 if (!this.checkCondition(project)) {
                   this.informationExchangeService.removeEntry(currentProjectId);
                   this.informationExchangeService.executeFunction.emit();
-                  this.isVisualized = true;
                   console.log('Visualization Completed');
                 }
                 else {

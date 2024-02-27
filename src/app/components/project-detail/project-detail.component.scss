@@ -50,3 +50,18 @@ img {
     position: relative;
     margin-right: 30px;
 }
+
+tr {
+    max-height: 40px;
+    min-height: 40px;
+    height: 40px;
+}
+
+td {
+    width: 300px;
+    font-size: large;
+}
+
+.vis-button {
+    margin-left: 20px;
+}

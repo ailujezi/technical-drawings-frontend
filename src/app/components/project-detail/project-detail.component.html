@@ -1,26 +1,37 @@
 <div *ngIf="selectedProject">
   <div class="flex-container">
-    <div class="top-div">
-      <h1>Project name: </h1>
-      <h3 *ngIf="selectedProject.description!=''">Project description: </h3>
-      <h3>Project AiModel: </h3>
-      <h3>Visualized: </h3>
-    </div>
-    <div class="bottom-div">
-      <h1 id="project-name">{{ selectedProject.name }}</h1>
-      <h3>{{ selectedProject.description}}</h3>
-      <h3>{{ aiModelName}}</h3>
-      <div *ngIf="isVisualized == false">Not yet visualized</div>
-      <div *ngIf="isVisualized == true">visualized</div>
-      <button *ngIf="isVisualized == false" (click)="startVisualization()" mat-raised-button color="accent">
-        <mat-icon>autorenew</mat-icon>
-        Visualize
-      </button>
-      <button *ngIf="isVisualized == true" (click)="startVisualizationRest()" mat-raised-button color="accent">
-        <mat-icon>autorenew</mat-icon>
-        Visualize
-      </button>
-    </div>
+    <table>
+      <tr>
+        <td>Project name:</td>
+        <td>{{ selectedProject.name }}</td>
+      </tr>
+      <tr *ngIf="selectedProject.description!=''">
+        <td>Description:</td>
+        <td>{{ selectedProject.description }}</td>
+      </tr>
+      <tr>
+        <td>AIModel:</td>
+        <td>{{ aiModelName }}</td>
+      </tr>
+      <tr>
+        <td>Visualized:</td>
+        <td *ngIf="!isProjectVisualized(selectedProject) && !isProjectPartlyVisualized(selectedProject)">Not yet visualized <button class="vis-button" (click)="startVisualization()" mat-raised-button color="accent">
+          <mat-icon>autorenew</mat-icon>
+          Visualize
+          </button>
+        </td>
+        <td *ngIf="isProjectVisualized(selectedProject) && !isProjectPartlyVisualized(selectedProject)">Visualized <button class="vis-button" (click)="startVisualization()" mat-raised-button color="accent">
+          <mat-icon>autorenew</mat-icon>
+          Visualize
+          </button>
+        </td>
+        <td *ngIf="isProjectPartlyVisualized(selectedProject) ">Partly visualized <button class="vis-button" (click)="startVisualizationRest()" mat-raised-button color="accent">
+          <mat-icon>autorenew</mat-icon>
+          Visualize
+          </button>
+        </td>
+      </tr>
+    </table>
   </div>
   <div class="gallery-container">
     <div class="gallery">
