@@ -12,7 +12,7 @@
 
   <mat-form-field>
     <mat-label>AI-Modell</mat-label>
-    <mat-select color="primary" [(ngModel)]="project.ai_model_id" name="ai_model_id" required="">
+    <mat-select id="create-project-select" color="primary" [(ngModel)]="project.ai_model_id" name="ai_model_id" required="">
       <mat-option id="create-project-option" *ngFor="let model of aiModels" [value]="model.id" matTooltip="{{model.description}}">
         {{model.name}}
       </mat-option>
