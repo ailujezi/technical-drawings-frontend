@@ -3,6 +3,9 @@
         <div *ngIf="shouldShowImages" class="gallery">
             <div *ngFor="let image of images" class="thumbnail" (click)="selectImage(image)">
                 <img *ngIf="image.has_result" id="visualization-gallery" [attr.src]="image.image_url | secure | async" [alt]="image.name"/>
+                <button style="display:none;" class="download-button" (click)="downloadImg()" color="accent">
+                    <mat-icon class="save-icon">download</mat-icon>
+                </button>
             </div>
         </div>
         <div class="selcted-image-overlays-container">
@@ -14,7 +17,10 @@
             <div class="overlays-container">
                 <mat-list class="overlays-mat-list">
                     <mat-list-item [class.selected-overlay-list]="isSelected(overlay)" class="mat-list-item" *ngFor="let overlay of overlays" (click)="selectOverlay(overlay)">
-                    <span matListItemTitle>{{ overlay.text }}</span>
+                        <span matListItemTitle>{{ overlay.text }}</span>
+                        <button style="display:none;" class="save-button" (click)="changeOverlay()" color="accent" disabled>
+                            <mat-icon class="save-icon">edit</mat-icon>
+                        </button>
                     </mat-list-item>
                 </mat-list>
             </div>

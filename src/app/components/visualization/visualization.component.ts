@@ -203,4 +203,12 @@ export class VisualizationComponent implements OnInit, OnDestroy {
       container.innerHTML= content; 
     }
   }
+
+  changeOverlay() {
+    //Code um die Anderung des Overlays zu speichern
+  }
+
+  downloadImg() {
+    //Code um die Visualisierte version des Bildes herunter zu laden
+  }
 }

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, Input, OnDestroy } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Project } from '../../interfaces/project';
 import { ProjectService } from '../../services/project.service';
 import { CommonModule } from '@angular/common';
@@ -12,6 +13,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import {MatListModule} from '@angular/material/list'; 
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
+import {MatInputModule} from '@angular/material/input'; 
 
 import { CreateProjectComponent } from '../create-project/create-project.component';
 import { DeleteProjectComponent } from '../delete-project/delete-project.component';
@@ -21,7 +23,7 @@ import { of } from 'rxjs'
 @Component({
   selector: 'app-project-list',
   standalone: true,
-  imports: [ CommonModule, MatCardModule, MatButtonModule, MatDialogModule, MatListModule, CreateProjectComponent, MatIconModule, MatProgressSpinnerModule],
+  imports: [ CommonModule, MatCardModule, MatButtonModule, MatDialogModule, MatListModule, CreateProjectComponent, MatIconModule, MatProgressSpinnerModule, MatInputModule, FormsModule],
   templateUrl: './project-list.component.html',
   styleUrl: './project-list.component.scss'
 })
@@ -30,6 +32,7 @@ export class ProjectListComponent implements OnInit{
   constructor(public dialog: MatDialog, private projectService: ProjectService, private informationExchangeService: InformationExchangeService, private selectedProjectService: SelectedProjectService) {
   }
 
+  value: String = "";
   projects: Project[] = []; 
   selectedProject?: Project;
   projectBeingVisualized?: Project;
@@ -120,5 +123,10 @@ export class ProjectListComponent implements OnInit{
       },
       error => console.error(error + "delete project")
     );
+  }
+
+  searchProjects() {
+    //Code um Projekte nach gesuchten Wörtern zu durchsuchen
+    //Input steht in Variable value
   }
 }

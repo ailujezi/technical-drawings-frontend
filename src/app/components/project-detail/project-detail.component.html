@@ -2,19 +2,19 @@
   <div class="flex-container">
     <table>
       <tr>
-        <td>Project name:</td>
+        <td class="fixed-names-row-size">Project name:</td>
         <td>{{ selectedProject.name }}</td>
       </tr>
       <tr *ngIf="selectedProject.description!=''">
-        <td>Description:</td>
+        <td class="fixed-names-row-size">Description:</td>
         <td>{{ selectedProject.description }}</td>
       </tr>
       <tr>
-        <td>AIModel:</td>
+        <td class="fixed-names-row-size">AIModel:</td>
         <td>{{ aiModelName }}</td>
       </tr>
       <tr>
-        <td>Visualized:</td>
+        <td class="fixed-names-row-size">Visualized:</td>
         <td *ngIf="!isProjectVisualized(selectedProject) && !isProjectPartlyVisualized(selectedProject)">Not yet visualized <button class="vis-button" (click)="startVisualization()" mat-raised-button color="accent">
           <mat-icon>autorenew</mat-icon>
           Visualize
