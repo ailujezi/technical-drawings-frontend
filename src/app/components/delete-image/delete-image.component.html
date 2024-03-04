@@ -1,8 +1,8 @@
 <h1 mat-dialog-title>Delete</h1>
-<div mat-dialog-content>
+<div data-cy="delete-image-question" mat-dialog-content>
   Would you like to delete this picture?
 </div>
 <div mat-dialog-actions>
-  <button mat-button mat-dialog-close cdkFocusInitial (click)="closeDialogYes()">Yes</button>
-  <button mat-button mat-dialog-close (click)="closeDialogNo()">No</button>
+  <button data-cy="delete-image-button-yes" mat-button mat-dialog-close cdkFocusInitial (click)="closeDialogYes()">Yes</button>
+  <button data-cy="delete-image-button-no" mat-button mat-dialog-close (click)="closeDialogNo()">No</button>
 </div>

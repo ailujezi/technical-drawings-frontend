@@ -1,19 +1,19 @@
 <div class="top-container">
     <div class="login-container" style="text-align: center;">
-        <form id="login-form" (ngSubmit)="onLogin()">
+        <form data-cy="login-form" id="login-form" (ngSubmit)="onLogin()">
             <div>
-                <label id="login-username">Username:</label>
+                <label data-cy="login-name-lable" id="login-username">Username:</label>
                 <br>
-                <input type="text" [(ngModel)]="loginData.username" name="username" required>
+                <input data-cy="login-name-input" type="text" [(ngModel)]="loginData.username" name="username" required>
             </div>
             <div>
-                <label id="login-password">Password:</label>
+                <label data-cy="login-password-lable" id="login-password">Password:</label>
                 <br>
-                <input type="password" [(ngModel)]="loginData.password" name="password" required>
+                <input data-cy="login-password-input" type="password" [(ngModel)]="loginData.password" name="password" required>
             </div>
-            <button mat-raised-button color="primary" type="submit">Anmelden</button>   
+            <button data-cy="login-submit" mat-raised-button color="primary" type="submit">Anmelden</button>   
         </form>
         <br>
-        <a (click)="goToRegister()" style="color: rgb(141, 174, 16)">Noch kein Konto?</a>
+        <a data-cy="login-to-register" (click)="goToRegister()" style="color: rgb(141, 174, 16)">Noch kein Konto?</a>
     </div>
 </div>

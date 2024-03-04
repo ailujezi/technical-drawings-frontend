@@ -1,18 +1,18 @@
 <h2 class="marg">Neues Projekt</h2>
-<form id="create-project-form" (ngSubmit)="onSubmit()" class="create-project">
+<form data-cy="create-project-form" id="create-project-form" (ngSubmit)="onSubmit()" class="create-project">
   <mat-form-field>
     <mat-label>Projektname</mat-label>
-    <input id="create-project-name" matInput [(ngModel)]="project.name" name="name" required>
+    <input data-cy="create-project-name" id="create-project-name" matInput [(ngModel)]="project.name" name="name" required>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Beschreibung</mat-label>
-    <textarea id="create-project-description" matInput [(ngModel)]="project.description" name="description"></textarea>
+    <textarea data-cy="create-project-description" id="create-project-description" matInput [(ngModel)]="project.description" name="description"></textarea>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>AI-Modell</mat-label>
-    <mat-select id="create-project-select" color="primary" [(ngModel)]="project.ai_model_id" name="ai_model_id" required="">
+    <mat-select data-cy="create-project-select" id="create-project-select" color="primary" [(ngModel)]="project.ai_model_id" name="ai_model_id" required="">
       <mat-option id="create-project-option" *ngFor="let model of aiModels" [value]="model.id" matTooltip="{{model.description}}">
         {{model.name}}
       </mat-option>

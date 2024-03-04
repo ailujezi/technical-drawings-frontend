@@ -2,30 +2,30 @@
   <div class="flex-container">
     <table>
       <tr>
-        <td class="fixed-names-row-size">Project name:</td>
-        <td>{{ selectedProject.name }}</td>
+        <td data-cy="project-name-lable" class="fixed-names-row-size">Project name:</td>
+        <td data-cy="project-name">{{ selectedProject.name }}</td>
       </tr>
       <tr *ngIf="selectedProject.description!=''">
-        <td class="fixed-names-row-size">Description:</td>
-        <td>{{ selectedProject.description }}</td>
+        <td data-cy="project-description-lable" class="fixed-names-row-size">Description:</td>
+        <td data-cy="project-description">{{ selectedProject.description }}</td>
       </tr>
       <tr>
-        <td class="fixed-names-row-size">AIModel:</td>
-        <td>{{ aiModelName }}</td>
+        <td data-cy="project-AImodel-lable" class="fixed-names-row-size">AIModel:</td>
+        <td data-cy="project-Aimodel">{{ aiModelName }}</td>
       </tr>
       <tr>
-        <td class="fixed-names-row-size">Visualized:</td>
-        <td *ngIf="!isProjectVisualized(selectedProject) && !isProjectPartlyVisualized(selectedProject)">Not yet visualized <button class="vis-button" (click)="startVisualization()" mat-raised-button color="accent">
+        <td data-cy="project-isvisualized-lable" class="fixed-names-row-size">Visualized:</td>
+        <td data-cy="project-isvisualized-no" *ngIf="!isProjectVisualized(selectedProject) && !isProjectPartlyVisualized(selectedProject)">Not yet visualized <button data-cy="project-visualize-button-yes" class="vis-button" (click)="startVisualization()" mat-raised-button color="accent">
           <mat-icon>autorenew</mat-icon>
           Visualize
           </button>
         </td>
-        <td *ngIf="isProjectVisualized(selectedProject) && !isProjectPartlyVisualized(selectedProject)">Visualized <button class="vis-button" (click)="startVisualization()" mat-raised-button color="accent">
+        <td data-cy="project-isvisualized-yes" *ngIf="isProjectVisualized(selectedProject) && !isProjectPartlyVisualized(selectedProject)">Visualized <button data-cy="project-visualize-button-no" class="vis-button" (click)="startVisualization()" mat-raised-button color="accent">
           <mat-icon>autorenew</mat-icon>
           Visualize
           </button>
         </td>
-        <td *ngIf="isProjectPartlyVisualized(selectedProject) ">Partly visualized <button class="vis-button" (click)="startVisualizationRest()" mat-raised-button color="accent">
+        <td data-cy="project-isvisualized-partly" *ngIf="isProjectPartlyVisualized(selectedProject) ">Partly visualized <button data-cy="project-visualize-button-partly" class="vis-button" (click)="startVisualizationRest()" mat-raised-button color="accent">
           <mat-icon>autorenew</mat-icon>
           Visualize
           </button>
@@ -34,23 +34,23 @@
     </table>
   </div>
   <div class="gallery-container">
-    <div class="gallery">
+    <div data-cy="project-gallery" class="gallery">
       <div *ngFor="let image of images" class="delete-image-container">
         <img [attr.src]="image.image_url | secure | async" [alt]="image.name"/>
-        <div class="delete-icon" (click)="openDialog(image)">X</div>
+        <div data-cy="project-gallery-img-delete" class="delete-icon" (click)="openDialog(image)">X</div>
       </div>
     </div>
   </div>
   <br>
-  <form (ngSubmit)="uploadImage()">
-    <input type="file" (change)="onFilesSelected($event)" multiple accept="image/*">
-    <button mat-raised-button color="accent" type="submit">
+  <form data-cy="project-img-upload-form" (ngSubmit)="uploadImage()">
+    <input data-cy="project-img-upload-input" type="file" (change)="onFilesSelected($event)" multiple accept="image/*">
+    <button data-cy="project-img-upload-button" mat-raised-button color="accent" type="submit">
       <mat-icon>cloud_upload</mat-icon>
       Upload
     </button>
   </form>
 </div>
-<div *ngIf="!selectedProject">
+<div data-cy="project-details-project-not-selecte" *ngIf="!selectedProject">
   <h1>Please select a Project</h1>
 </div>
 

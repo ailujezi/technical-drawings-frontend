@@ -1,24 +1,24 @@
 <div *ngIf="selectedProject" class="visualization-container">
     <div class="gallery-container">
-        <div *ngIf="shouldShowImages" class="gallery">
+        <div data-cy="visualization-gallery" class="gallery">
             <div *ngFor="let image of images" class="thumbnail" (click)="selectImage(image)">
-                <img *ngIf="image.has_result" id="visualization-gallery" [attr.src]="image.image_url | secure | async" [alt]="image.name"/>
-                <button style="display:none;" class="download-button" (click)="downloadImg()" color="accent">
+                <img data-cy="visualization-gallery-img" *ngIf="image.has_result" id="visualization-gallery" [attr.src]="image.image_url | secure | async" [alt]="image.name"/>
+                <button data-cy="visualization-gallery-img-download" style="display:none;" class="download-button" (click)="downloadImg()" color="accent">
                     <mat-icon class="save-icon">download</mat-icon>
                 </button>
             </div>
         </div>
         <div class="selcted-image-overlays-container">
-            <div *ngIf="selectedImage" class="selected-image-container">
-                <img #imageElement [attr.src]="selectedImage.image_url | secure | async" [alt]="selectedImage.name" (load)="reloadLables()"/>
-                <label [class.selected-overlay]="isSelected(overlay)" id="overlays"  *ngFor="let overlay of overlays" [ngStyle]="getOverlayStyle(imageElement, overlay)" (click)="selectOverlay(overlay)">
+            <div data-cy="visualization-selcted-img-container" *ngIf="selectedImage" class="selected-image-container">
+                <img data-cy="visualization-selected-img" #imageElement [attr.src]="selectedImage.image_url | secure | async" [alt]="selectedImage.name" (load)="reloadLables()"/>
+                <label data-cy="visualization-selected-img-overlay" [class.selected-overlay]="isSelected(overlay)" id="overlays"  *ngFor="let overlay of overlays" [ngStyle]="getOverlayStyle(imageElement, overlay)" (click)="selectOverlay(overlay)">
                 </label>
             </div>
             <div class="overlays-container">
-                <mat-list class="overlays-mat-list">
-                    <mat-list-item [class.selected-overlay-list]="isSelected(overlay)" class="mat-list-item" *ngFor="let overlay of overlays" (click)="selectOverlay(overlay)">
-                        <span matListItemTitle>{{ overlay.text }}</span>
-                        <button style="display:none;" class="save-button" (click)="changeOverlay()" color="accent" disabled>
+                <mat-list data-cy="visualization-overlay-list"class="overlays-mat-list">
+                    <mat-list-item data-cy="visualization-overlay-item" [class.selected-overlay-list]="isSelected(overlay)" class="mat-list-item" *ngFor="let overlay of overlays" (click)="selectOverlay(overlay)">
+                        <span data-cy="visualization-overlay-text" matListItemTitle>{{ overlay.text }}</span>
+                        <button data-cy="visualization-overlay-change-button" style="display:none;" class="save-button" (click)="changeOverlay()" color="accent" disabled>
                             <mat-icon class="save-icon">edit</mat-icon>
                         </button>
                     </mat-list-item>
@@ -27,6 +27,6 @@
         </div>
     </div>
 </div>
-<div *ngIf="!selectedProject">
+<div data-cy="visualization-project-not-selected" *ngIf="!selectedProject">
 <h1>Please select a Project</h1>
 </div>

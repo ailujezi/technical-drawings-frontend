@@ -1,22 +1,27 @@
-<button id="create-project" class="marg" mat-raised-button color="primary" (click)="openCreateProjectDialog()">Neues Projekt</button>
+<button data-cy="projectlist-create-project-button" id="create-project" class="marg" mat-raised-button color="primary" (click)="openCreateProjectDialog()">Neues Projekt</button>
 
-<mat-form-field style="display:none;" class="search-form-field">
-  <mat-label>Search</mat-label>
-  <input matInput type="text" [(ngModel)]="value">
+<mat-form-field data-cy="projectlist-searchbar-form" class="search-form-field">
+  <mat-label data-cy="projectlist-searchbar-lable">Search</mat-label>
+  <input data-cy="projectlist-searchbar-input" matInput type="text" [(ngModel)]="value">
   @if (value) {
-    <button matSuffix mat-icon-button aria-label="Clear" (click)="searchProjects()">
+    <button data-cy="projectlist-searchbar-button-search" matSuffix mat-icon-button aria-label="Clear" (click)="searchProjects(value)">
       <mat-icon>search</mat-icon>
+    </button>
+  }
+  @else {
+    <button data-cy="projectlist-searchbar-button-cancle" matSuffix mat-icon-button aria-label="Clear" (click)="searchProjectsCancle()">
+      <mat-icon>stop</mat-icon>
     </button>
   }
 </mat-form-field>
 
 
 <div class="project-list-container">
-  <mat-list class="project-mat-list">
-    <mat-list-item [attr.id]="project.name" [class.selected-project]="isSelected(project)" class="mat-list-item" *ngFor="let project of projects" (click)="selectProject(project)">
-      <div class="delete-icon" (click)="openDialog(project)">X</div>
-      <span matListItemTitle>{{ project.name }}</span>
-      <span matListItemLine style="white-space: nowrap;">{{ project.description }}
+  <mat-list data-cy="projectlist-list" class="project-mat-list">
+    <mat-list-item data-cy="projectlist-list-item" [attr.id]="project.name" [class.selected-project]="isSelected(project)" class="mat-list-item" *ngFor="let project of projects" (click)="selectProject(project)">
+      <div data-cy="projectlist-project-delete" class="delete-icon" (click)="openDialog(project)">X</div>
+      <span data-cy="projectlist-project-name" matListItemTitle>{{ project.name }}</span>
+      <span data-cy="projectlist-project-description" matListItemLine style="white-space: nowrap;">{{ project.description }}
         <mat-spinner *ngIf="isVisualized(project)" diameter="20" class="list-spinner"></mat-spinner>
       </span>
     </mat-list-item>

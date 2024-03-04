@@ -39,7 +39,6 @@ export class VisualizationComponent implements OnInit, OnDestroy {
     });  
   }
 
-  shouldShowImages: boolean = true;
   images: Image[] = [];
   overlays: OverlayRecognition[] = [];
   responseData?: Results[]; 

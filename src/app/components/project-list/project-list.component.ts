@@ -32,7 +32,7 @@ export class ProjectListComponent implements OnInit{
   constructor(public dialog: MatDialog, private projectService: ProjectService, private informationExchangeService: InformationExchangeService, private selectedProjectService: SelectedProjectService) {
   }
 
-  value: String = "";
+  value: string = "";
   projects: Project[] = []; 
   selectedProject?: Project;
   projectBeingVisualized?: Project;
@@ -125,8 +125,41 @@ export class ProjectListComponent implements OnInit{
     );
   }
 
-  searchProjects() {
-    //Code um Projekte nach gesuchten Wörtern zu durchsuchen
-    //Input steht in Variable value
+  searchProjects(text: string) {
+    let projectsToSearch: Project[] = [];
+    let foundProjects: Project[] = [];
+    this.projectService.getProjects().pipe(
+      tap(response => {
+        projectsToSearch = response;
+
+        for(let i=0; i<projectsToSearch.length; i++){
+          if (projectsToSearch[i].description.toLocaleLowerCase().includes(text.toLocaleLowerCase()) || projectsToSearch[i].name.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
+            foundProjects.push(projectsToSearch[i]);
+          }
+        }
+
+        this.projects = foundProjects;
+
+      }),
+      catchError(error => {
+        console.error("Could not get projects", error);
+        return of(null);
+      })
+    ).subscribe();
+
+    
+  }
+
+  searchProjectsCancle() {
+    this.projectService.getProjects().pipe(
+      tap(response => {
+       this.projects = response;
+
+      }),
+      catchError(error => {
+        console.error("Could not get projects", error);
+        return of(null);
+      })
+    ).subscribe();
   }
 }
