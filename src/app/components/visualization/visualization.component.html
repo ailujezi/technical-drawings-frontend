@@ -3,7 +3,7 @@
         <div data-cy="visualization-gallery" class="gallery">
             <div *ngFor="let image of images" class="thumbnail" (click)="selectImage(image)">
                 <img data-cy="visualization-gallery-img" *ngIf="image.has_result" id="visualization-gallery" [attr.src]="image.image_url | secure | async" [alt]="image.name"/>
-                <button data-cy="visualization-gallery-img-download" style="display:none;" class="download-button" (click)="downloadImg()" color="accent">
+                <button data-cy="visualization-gallery-img-download" class="download-button" (click)="downloadImg(image)" color="accent">
                     <mat-icon class="save-icon">download</mat-icon>
                 </button>
             </div>
@@ -18,7 +18,7 @@
                 <mat-list data-cy="visualization-overlay-list"class="overlays-mat-list">
                     <mat-list-item data-cy="visualization-overlay-item" [class.selected-overlay-list]="isSelected(overlay)" class="mat-list-item" *ngFor="let overlay of overlays" (click)="selectOverlay(overlay)">
                         <span data-cy="visualization-overlay-text" matListItemTitle>{{ overlay.text }}</span>
-                        <button data-cy="visualization-overlay-change-button" style="display:none;" class="save-button" (click)="changeOverlay()" color="accent" disabled>
+                        <button data-cy="visualization-overlay-change-button" class="save-button" (click)="changeOverlay(overlay)" color="accent">
                             <mat-icon class="save-icon">edit</mat-icon>
                         </button>
                     </mat-list-item>

@@ -18,11 +18,14 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
+    
     const accessToken = sessionStorage.getItem('accessToken');
     const authService = inject(AuthService);
 
-    let apiReq = request.clone({ url: `${environment.apiUrl}/${request.url}` });
+    let apiReq = request.clone();
+    if (!request.url.startsWith('http')) {
+      apiReq = request.clone({ url: `${environment.apiUrl}/${request.url}` });
+    }
 
     if (accessToken && authService.isLoggedIn()) {
       apiReq = apiReq.clone({

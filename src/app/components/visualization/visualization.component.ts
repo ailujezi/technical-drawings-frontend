@@ -9,13 +9,18 @@ import { ResultsService } from '../../services/results.service';
 import { InformationExchangeService } from '../../services/information-exchange.service';
 import { Subscription } from 'rxjs';
 import { SelectedProjectService } from '../../services/selected-project.service';
+import { HttpClient } from '@angular/common/http';
 
 import {MatListModule} from '@angular/material/list'; 
 import {MatIconModule} from '@angular/material/icon'; 
 import { SecurePipe } from '../../pipes/secure.pipe';
+import { MatDialog } from '@angular/material/dialog';
 
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs'
+import { ChangeOverlaysComponent } from '../change-overlays/change-overlays.component';
+import { Overlay } from '@angular/cdk/overlay';
+import { over } from 'cypress/types/lodash';
 
 
 
@@ -32,7 +37,7 @@ export class VisualizationComponent implements OnInit, OnDestroy {
 
   private loadImagesSubscription: Subscription;
 
-  constructor(private projectService: ProjectService, private resultsService: ResultsService, private informationExchangeService: InformationExchangeService, private selectedProjectService: SelectedProjectService) { 
+  constructor(private projectService: ProjectService, private resultsService: ResultsService, private informationExchangeService: InformationExchangeService, private selectedProjectService: SelectedProjectService, public dialog: MatDialog, private http: HttpClient) { 
     this.loadImagesSubscription = this.informationExchangeService.executeFunction.subscribe(() => {
       this.images = [];
       this.loadImages();
@@ -203,11 +208,25 @@ export class VisualizationComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeOverlay() {
-    //Code um die Anderung des Overlays zu speichern
+  changeOverlay(overlay: OverlayRecognition): void {
+    const dialogRef = this.dialog.open(ChangeOverlaysComponent, {
+      width: '300px',
+      data: {
+        overlay: overlay,
+      }
+    }); 
   }
 
-  downloadImg() {
-    //Code um die Visualisierte version des Bildes herunter zu laden
+  downloadImg(image: Image) {
+    this.http.get(image.image_url, { responseType: 'blob' }).subscribe(blob => {
+      const a = document.createElement('a');
+      const objectUrl = URL.createObjectURL(blob);
+
+      a.href = objectUrl;
+      a.download = image.old_name;
+      a.click();
+
+      URL.revokeObjectURL(objectUrl);
+    });
   }
 }
