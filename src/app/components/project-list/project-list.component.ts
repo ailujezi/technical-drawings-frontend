@@ -33,7 +33,8 @@ export class ProjectListComponent implements OnInit{
   }
 
   value: string = "";
-  projects: Project[] = []; 
+  displayProjects: Project[] = []; 
+  allProjects: Project[] = []; 
   selectedProject?: Project;
   projectBeingVisualized?: Project;
 
@@ -48,7 +49,8 @@ export class ProjectListComponent implements OnInit{
   ngOnInit(): void {
     this.projectService.getProjects().pipe(
       tap(response => {
-        this.projects = response;
+        this.displayProjects = response;
+        this.allProjects = response;
       }),
       catchError(error => {
         console.error("Could not get projects", error);
@@ -81,7 +83,8 @@ export class ProjectListComponent implements OnInit{
   dialogRef.afterClosed().subscribe(result => {
     this.projectService.getProjects().pipe(
       tap(response => {
-        this.projects = response;
+        this.displayProjects = response;
+        this.allProjects = response;
       }),
       catchError(error => {
         console.error("Could not get projects", error);
@@ -113,7 +116,8 @@ export class ProjectListComponent implements OnInit{
 
         this.projectService.getProjects().pipe(
           tap(response => {
-            this.projects = response;
+            this.displayProjects = response;
+            this.allProjects = response;
           }),
           catchError(error => {
             console.error("Could not get projects", error);
@@ -126,34 +130,22 @@ export class ProjectListComponent implements OnInit{
   }
 
   searchProjects(text: string) {
-    let projectsToSearch: Project[] = [];
     let foundProjects: Project[] = [];
-    this.projectService.getProjects().pipe(
-      tap(response => {
-        projectsToSearch = response;
-
-        for(let i=0; i<projectsToSearch.length; i++){
-          if (projectsToSearch[i].description.toLocaleLowerCase().includes(text.toLocaleLowerCase()) || projectsToSearch[i].name.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
-            foundProjects.push(projectsToSearch[i]);
-          }
-        }
-
-        this.projects = foundProjects;
-
-      }),
-      catchError(error => {
-        console.error("Could not get projects", error);
-        return of(null);
-      })
-    ).subscribe();
-
     
+    for(let i=0; i<this.allProjects.length; i++){
+      if (this.allProjects[i].description.toLocaleLowerCase().includes(text.toLocaleLowerCase()) || this.allProjects[i].name.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
+        foundProjects.push(this.allProjects[i]);
+      }
+    }
+
+    this.displayProjects = foundProjects;
   }
 
   searchProjectsCancle() {
+    this.value = "";
     this.projectService.getProjects().pipe(
       tap(response => {
-       this.projects = response;
+       this.displayProjects = response;
 
       }),
       catchError(error => {
