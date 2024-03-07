@@ -43,21 +43,29 @@ export class ProjectListComponent implements OnInit{
   //If selected project changes emit to parent (mainview)
   selectProject(project: Project): void {
     this.selectedProject = project;
-    this.selectedProjectService.setSelectedProject(project);
+    this.selectedProjectService.setSelectedProject(project, true);
   }
 
   ngOnInit(): void {
-    this.projectService.getProjects().pipe(
-      tap(response => {
-        this.displayProjects = response;
-        this.allProjects = response;
-      }),
-      catchError(error => {
-        console.error("Could not get projects", error);
-        return of(null);
-      })
-    ).subscribe();
+    this.projectService.getProjectsObservable().subscribe(projects => {
+      this.displayProjects = projects;
+      this.allProjects = projects;
+      this.setSelcetedProjectNew();
+    });
 
+    this.loadProjects();
+  }
+
+  setSelcetedProjectNew() {
+    for(let i = 0; i < this.allProjects.length; i++) {
+      if(this.selectedProject) {
+        if (this.selectedProject.id == this.allProjects[i].id){
+          this.selectedProjectService.setSelectedProject(this.allProjects[i], true);
+          return;
+        }
+        this.selectedProjectService.setSelectedProject(this.selectedProject, false);
+      }
+    }
   }
 
   isSelected(project: Project): boolean {
@@ -79,7 +87,6 @@ export class ProjectListComponent implements OnInit{
   });
 
 
-  //Handle cloing of dialog
   dialogRef.afterClosed().subscribe(result => {
     this.projectService.getProjects().pipe(
       tap(response => {
@@ -94,6 +101,10 @@ export class ProjectListComponent implements OnInit{
     
     console.log('Der Dialog wurde geschlossen');
     });
+  }
+
+  loadProjects() {
+    this.projectService.loadProjects().subscribe();
   }
 
   openDialog(project: Project): void {

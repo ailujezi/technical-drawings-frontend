@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { Project } from '../interfaces/project';
 import { Image } from '../interfaces/image';
 import { AiModel } from '../interfaces/ai_model';
+import { Observable, BehaviorSubject, of } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 
@@ -15,6 +16,24 @@ export class ProjectService {
 
 
   constructor(private http: HttpClient) {
+  }
+  
+  private projectsSubject = new BehaviorSubject<Project[]>([]);
+
+  loadProjects(): Observable<Project[]> {
+    return this.http.get<Project[]>('store/projects').pipe(
+      tap(projects => {
+        this.projectsSubject.next(projects);
+      }),
+      catchError(error => {
+        console.error("Could not get projects", error);
+        return of([]);
+      })
+    );
+  }
+
+  getProjectsObservable(): Observable<Project[]> {
+    return this.projectsSubject.asObservable();
   }
 
   getProjects(): Observable<Project[]> {
@@ -56,6 +75,11 @@ export class ProjectService {
   deleteProject(projectId: number) {
     const url = 'store/projects'
     return this.http.delete(`${url}/${projectId}`);
+  }
+
+  editProject(projectId: number, data: any) {
+    const url = 'store/projects'
+    return this.http.patch(`${url}/${projectId}`, data);
   }
 
 }

@@ -58,7 +58,7 @@ tr {
 }
 
 td {
-    width: 300px;
+    width: 500px;
     font-size: large;
 }
 
@@ -67,5 +67,18 @@ td {
 }
 
 .fixed-names-row-size {
-    width: 200px;
+    width: 230px;
+    font-size: x-large;
+}
+
+.edit-button {
+    width: 50px;
+    min-width: 50px;
+    max-width: 50px;
+}
+
+.edit-mat-icon {
+    width: 40px;
+    min-width: 40px;
+    max-width: 40px;
 }

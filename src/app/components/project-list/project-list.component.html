@@ -4,7 +4,7 @@
   <mat-label data-cy="projectlist-searchbar-lable">Search</mat-label>
   <input data-cy="projectlist-searchbar-input" matInput type="text" (keyup)="searchProjects(value)" [(ngModel)]="value">
   @if (value) {
-    <button data-cy="projectlist-searchbar-button-search" matSuffix mat-icon-button aria-label="Clear" (click)="searchProjectsCancle()">
+    <button data-cy="projectlist-searchbar-button-search" matSuffix mat-icon-button aria-label="Clear" (click)="searchProjectsCancle()" class="search-button-clear">
       <mat-icon>clear</mat-icon>
     </button>
   }

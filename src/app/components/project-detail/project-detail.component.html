@@ -2,11 +2,14 @@
   <div class="flex-container">
     <table>
       <tr>
-        <td data-cy="project-name-lable" class="fixed-names-row-size">Project name:</td>
+        <td data-cy="project-name-lable" class="fixed-names-row-size">Projekt Name:</td>
         <td data-cy="project-name">{{ selectedProject.name }}</td>
       </tr>
       <tr *ngIf="selectedProject.description!=''">
-        <td data-cy="project-description-lable" class="fixed-names-row-size">Description:</td>
+        <td data-cy="project-description-lable" class="fixed-names-row-size">Beschreibung:  <button data-cy="project-visualize-button-partly" class="edit-button" (click)="editDescription(selectedProject)" mat-raised-button color="accent">
+          <mat-icon class="edit-mat-icon">edit</mat-icon>
+          </button>
+        </td>
         <td data-cy="project-description">{{ selectedProject.description }}</td>
       </tr>
       <tr>
@@ -17,7 +20,7 @@
         <td data-cy="project-isvisualized-lable" class="fixed-names-row-size">Visualized:</td>
         <td data-cy="project-isvisualized-no" *ngIf="!isProjectVisualized(selectedProject) && !isProjectPartlyVisualized(selectedProject)">Not yet visualized <button data-cy="project-visualize-button-yes" class="vis-button" (click)="startVisualization()" mat-raised-button color="accent">
           <mat-icon>autorenew</mat-icon>
-          Visualize
+          Visualisieren
           </button>
         </td>
         <td data-cy="project-isvisualized-yes" *ngIf="isProjectVisualized(selectedProject) && !isProjectPartlyVisualized(selectedProject)">Visualized <button data-cy="project-visualize-button-no" class="vis-button" (click)="startVisualization()" mat-raised-button color="accent">

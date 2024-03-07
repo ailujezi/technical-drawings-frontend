@@ -13,7 +13,11 @@ export class SelectedProjectService {
     return this.selectedProject.asObservable();
   }
 
-  setSelectedProject(project: Project) {
-    this.selectedProject.next(project);
+  setSelectedProject(project: Project, isSet: boolean) {
+    if(isSet){
+      this.selectedProject.next(project);
+    } else {
+      this.selectedProject.next(undefined);
+    }
   }
 }

@@ -27,6 +27,8 @@
     box-sizing: border-box;
     overflow: auto;
     width: 90%;
+    margin-bottom: 8px;
+    margin-top: 8px;
 }
 
 .project-mat-list mat-list-item:hover {
@@ -44,6 +46,11 @@
 
 .search-form-field {
     margin: 5%;
-    width: 90%;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    width: 87%;
+}
 
+.search-button-clear {
+    margin: 5px;
 }

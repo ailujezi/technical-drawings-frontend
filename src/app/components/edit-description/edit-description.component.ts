@@ -14,26 +14,37 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import {MatTooltipModule} from '@angular/material/tooltip'; 
 
+import { catchError, tap } from 'rxjs/operators';
+import { of } from 'rxjs'
 
 @Component({
-  selector: 'app-change-overlays',
+  selector: 'app-edit-description',
   standalone: true,
   imports: [MatButtonModule, MatFormFieldModule, MatDialogModule, MatInputModule, MatSelectModule, MatTooltipModule, FormsModule, CommonModule],
-  templateUrl: './change-overlays.component.html',
-  styleUrl: './change-overlays.component.scss'
+  templateUrl: './edit-description.component.html',
+  styleUrl: './edit-description.component.scss'
 })
-export class ChangeOverlaysComponent {
-  overlay = { oldText: '', newText: '', notes:''};
+export class EditDescriptionComponent {
+  edit = { description: ''};
 
 
-  constructor(private projectService: ProjectService, public dialogRef: MatDialogRef<ChangeOverlaysComponent>, @Inject(MAT_DIALOG_DATA) public data: any,  private snackBar: MatSnackBar) {}
+  constructor(private projectService: ProjectService, public dialogRef: MatDialogRef<EditDescriptionComponent>, @Inject(MAT_DIALOG_DATA) public data: any,  private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
   
   }
 
   onSubmit(): void {
-    //Daten an den BackendServer senden
+    this.projectService.editProject(this.data.project.id, this.edit).pipe(
+      tap(response => {
+        console.log('edited');
+      }),
+      catchError(error => {
+        console.error("Could not change Description", error);
+        return of(null);
+      })
+    ).subscribe();
+
     this.closeDialog();
   }
 
