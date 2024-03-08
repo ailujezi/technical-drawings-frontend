@@ -9,6 +9,10 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif; 
 }
 
+html {
+    overflow: hidden !important;
+}
+
 
 
 .create-project mat-form-field {
@@ -26,13 +30,12 @@ img {
 }
 
 
-.arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: #fff;
-    border: 1px solid #ccc;
-}
+
+.hr-context { 
+    margin: 0px;
+    margin-bottom: 15px;
+    color: #17365c;
+} 
 
 
 

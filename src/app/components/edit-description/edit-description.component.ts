@@ -31,7 +31,7 @@ export class EditDescriptionComponent {
   constructor(private projectService: ProjectService, public dialogRef: MatDialogRef<EditDescriptionComponent>, @Inject(MAT_DIALOG_DATA) public data: any,  private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
-  
+    this.edit.description = this.data.project.description;
   }
 
   onSubmit(): void {

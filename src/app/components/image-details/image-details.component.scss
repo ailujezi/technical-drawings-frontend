@@ -21,7 +21,8 @@
 }
 
 .image-left{
-    width: 500px;
+    width: 50%;
+    max-height: calc(100vh - 238px);
 }
 
 .image-details-container {
@@ -37,6 +38,8 @@
 
 .details-table {
     margin:auto;
+    margin-left: 15px;
+    width: 50%
 }
 
 .fixed-names-row-size {
@@ -44,14 +47,11 @@
     font-size: x-large;
 }
 
-.edit-button {
-    width: 50px;
-    min-width: 50px;
-    max-width: 50px;
+.uploaded-lable {
+    padding-left: 58px;
+    height: 50px;
 }
 
-.edit-mat-icon {
-    width: 40px;
-    min-width: 40px;
-    max-width: 40px;
+.edit-button {
+    margin-right: 10px;
 }

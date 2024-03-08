@@ -23,13 +23,13 @@ import {MatTooltipModule} from '@angular/material/tooltip';
   styleUrl: './change-overlays.component.scss'
 })
 export class ChangeOverlaysComponent {
-  overlay = { oldText: '', newText: '', notes:''};
+  overlay = {newText: '', notes:''};
 
 
   constructor(private projectService: ProjectService, public dialogRef: MatDialogRef<ChangeOverlaysComponent>, @Inject(MAT_DIALOG_DATA) public data: any,  private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
-  
+  this.overlay.newText = this.data.overlay.text;
   }
 
   onSubmit(): void {

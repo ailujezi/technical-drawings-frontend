@@ -6,6 +6,7 @@ import { of } from 'rxjs'
 
 import {MatIconModule} from '@angular/material/icon'; 
 import { MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 
 
@@ -21,7 +22,7 @@ import { EditImageNameComponent } from '../edit-image-name/edit-image-name.compo
 @Component({
   selector: 'app-image-details',
   standalone: true,
-  imports: [CommonModule, SecurePipe, MatIconModule],
+  imports: [CommonModule, SecurePipe, MatIconModule, MatButtonModule],
   templateUrl: './image-details.component.html',
   styleUrl: './image-details.component.scss'
 })
@@ -76,7 +77,7 @@ export class ImageDetailsComponent implements OnInit, OnDestroy  {
     const dialogRef = this.dialog.open(EditImageNotesComponent, {
       width: '300px',
       data: {
-        image: Image,
+        image: image,
       }
     }); 
 
@@ -89,7 +90,7 @@ export class ImageDetailsComponent implements OnInit, OnDestroy  {
     const dialogRef = this.dialog.open(EditImageNameComponent, {
       width: '300px',
       data: {
-        image: Image,
+        image: image,
       }
     }); 
 

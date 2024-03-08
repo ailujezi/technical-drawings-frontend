@@ -1,11 +1,10 @@
 <h2 class="marg">Name Ändern</h2>
-<h3 class="marg marg-bottom">Alter Name: </h3>
-<h4 class="marg marg-top">Namens Änderungen werden noch nicht unterstützt!</h4>
+<hr class="hr-context">
 <form data-cy="edit-image-name-form" (ngSubmit)="onSubmit()" class="edit-name">
     <mat-form-field>
         <mat-label>Neuer Name</mat-label>
-        <input data-cy="edit-image-name-name-input" matInput [(ngModel)]="edit.notes" name="text" required>
+        <input data-cy="edit-image-name-name-input" matInput [(ngModel)]="edit.name" name="text" required>
     </mat-form-field>
 
-  <button class="marg marg-bottom" mat-raised-button color="primary" type="submit">Speichern</button>
+  <button class="marg marg-bottom marge-top button" mat-raised-button color="primary" type="submit">Speichern</button>
 </form>

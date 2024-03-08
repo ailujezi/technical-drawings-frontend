@@ -15,6 +15,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon'; 
 import { SecurePipe } from '../../pipes/secure.pipe';
 import { MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs'
@@ -27,7 +28,7 @@ import { over } from 'cypress/types/lodash';
 @Component({
   selector: 'app-visualization',
   standalone: true,
-  imports: [ CommonModule, MatIconModule, SecurePipe, MatListModule],
+  imports: [ CommonModule, MatIconModule, SecurePipe, MatListModule, MatButtonModule],
   templateUrl: './visualization.component.html',
   styleUrl: './visualization.component.scss'
 })

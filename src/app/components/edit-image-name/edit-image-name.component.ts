@@ -25,13 +25,13 @@ import { of } from 'rxjs'
   styleUrl: './edit-image-name.component.scss'
 })
 export class EditImageNameComponent {
-  edit = { notes: ''};
+  edit = { name: ''};
 
 
   constructor(private projectService: ProjectService, public dialogRef: MatDialogRef<EditImageNameComponent>, @Inject(MAT_DIALOG_DATA) public data: any,  private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
-  
+  this.edit.name = this.data.image.old_name;
   }
 
   onSubmit(): void {

@@ -31,7 +31,7 @@ export class EditNameComponent {
   constructor(private projectService: ProjectService, public dialogRef: MatDialogRef<EditNameComponent>, @Inject(MAT_DIALOG_DATA) public data: any,  private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
-  
+    this.edit.name = this.data.project.name;
   }
 
   onSubmit(): void {

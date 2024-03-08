@@ -1,25 +1,26 @@
 <div *ngIf="selectedProject">
   <div class="flex-container">
-    <table>
+    <table class="project-details-table">
       <tr>
-        <td data-cy="project-name-lable" class="fixed-names-row-size">Projekt Name: <button data-cy="project-details-button-name-edit" class="edit-button" (click)="editName(selectedProject)" mat-raised-button color="accent">
-          <mat-icon class="edit-mat-icon">edit</mat-icon>
-          </button></td>
+        <td data-cy="project-name-lable" class="fixed-names-row-size">
+          <button data-cy="project-details-button-name-edit" class="edit-button" aria-label="Clear" (click)="editName(selectedProject)" mat-icon-button color="accent">
+            <mat-icon>edit</mat-icon>
+            </button>Projekt Name: </td>
         <td data-cy="project-name">{{ selectedProject.name }}</td>
       </tr>
       <tr *ngIf="selectedProject.description!=''">
-        <td data-cy="project-description-lable" class="fixed-names-row-size">Beschreibung:  <button data-cy="project-ditails-button-discription-edit" class="edit-button" (click)="editDescription(selectedProject)" mat-raised-button color="accent">
-          <mat-icon class="edit-mat-icon">edit</mat-icon>
-          </button>
-        </td>
+        <td data-cy="project-description-lable" class="fixed-names-row-size">
+          <button data-cy="project-ditails-button-discription-edit" class="edit-button" aria-label="Clear" (click)="editDescription(selectedProject)" mat-icon-button color="accent">
+            <mat-icon >edit</mat-icon>
+            </button>Beschreibung:  </td>
         <td data-cy="project-description">{{ selectedProject.description }}</td>
       </tr>
       <tr>
-        <td data-cy="project-AImodel-lable" class="fixed-names-row-size">AIModel:</td>
+        <td data-cy="project-AImodel-lable" class="fixed-names-row-size aimodel-lable">AIModel:</td>
         <td data-cy="project-Aimodel">{{ aiModelName }}</td>
       </tr>
       <tr>
-        <td data-cy="project-isvisualized-lable" class="fixed-names-row-size">Visualized:</td>
+        <td data-cy="project-isvisualized-lable" class="fixed-names-row-size visualized-lable">Visualized:</td>
         <td data-cy="project-isvisualized-no" *ngIf="!isProjectVisualized(selectedProject) && !isProjectPartlyVisualized(selectedProject)">Not yet visualized <button data-cy="project-visualize-button-yes" class="vis-button" (click)="startVisualization()" mat-raised-button color="accent">
           <mat-icon>autorenew</mat-icon>
           Visualisieren
