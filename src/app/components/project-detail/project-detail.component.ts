@@ -24,6 +24,7 @@ import { switchMap, takeWhile } from 'rxjs/operators';
 import { InformationExchangeService } from '../../services/information-exchange.service';
 import { SelectedProjectService } from '../../services/selected-project.service';
 import { EditDescriptionComponent } from '../edit-description/edit-description.component';
+import { EditNameComponent } from '../edit-name/edit-name.component';
 
 
 @Component({
@@ -259,6 +260,21 @@ export class ProjectDetailComponent implements OnInit, OnDestroy{
 
   editDescription(project: Project) {
     const dialogRef = this.dialog.open(EditDescriptionComponent, {
+      width: '300px',
+      data: {
+        project: project,
+      }
+    }); 
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Das Dialogfenster wurde geschlossen');
+      this.projectService.loadProjects().subscribe();
+      this.selectedProject = this.selectedProject;
+    });
+  }
+
+  editName(project: Project) {
+    const dialogRef = this.dialog.open(EditNameComponent, {
       width: '300px',
       data: {
         project: project,

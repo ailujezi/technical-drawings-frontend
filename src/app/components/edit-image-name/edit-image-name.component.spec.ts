@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditDescriptionComponent } from './edit-description.component';
+import { EditImageNameComponent } from './edit-image-name.component';
 
 describe('EditDescriptionComponent', () => {
-  let component: EditDescriptionComponent;
-  let fixture: ComponentFixture<EditDescriptionComponent>;
+  let component: EditImageNameComponent;
+  let fixture: ComponentFixture<EditImageNameComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EditDescriptionComponent]
+      imports: [EditImageNameComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(EditDescriptionComponent);
+    fixture = TestBed.createComponent(EditImageNameComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

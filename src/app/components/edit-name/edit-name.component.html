@@ -1,0 +1,11 @@
+<h2 class="marg">Name Ändern</h2>
+<h3 class="marg marg-bottom">Alter Name: </h3>
+<h4 class="marg marg-top">{{data.project.name}}</h4>
+<form data-cy="change-overlays-form" (ngSubmit)="onSubmit()" class="edit-description">
+    <mat-form-field>
+        <mat-label>Neuer Name</mat-label>
+        <input data-cy="edit-description-description-input" matInput [(ngModel)]="edit.name" name="text" required>
+    </mat-form-field>
+
+  <button class="marg marg-bottom" mat-raised-button color="primary" type="submit">Speichern</button>
+</form>

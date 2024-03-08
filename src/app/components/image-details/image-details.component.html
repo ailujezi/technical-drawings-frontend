@@ -1,0 +1,38 @@
+<div *ngIf="selectedProject" class="image-details-container">
+    <div data-cy="canvas-gallery" class="gallery">
+        <div *ngFor="let image of images" class="thumbnail" (click)="selectImage(image)">
+            <img data-cy="canvas-gallery" id="canvas-gallery" [attr.src]="image.image_url | secure | async" [alt]="image.name"/>
+        </div>
+    </div>
+    <div class="image-table-container">
+        <div data-cy="image-details-img-container" *ngIf="selectedImage" class="selected-image-container" class="image-left" >
+            <img data-cy="image-details-selected-img" #imageElement [attr.src]="selectedImage.image_url | secure | async" [alt]="selectedImage.name"/>
+        </div>
+        <table *ngIf="selectedImage" class="details-table">
+            <tr>
+            <td data-cy="image-details-name-lable" class="fixed-names-row-size">Image Name: <button data-cy="project-details-button-name-edit" class="edit-button" (click)="editName(selectedImage)" mat-raised-button color="accent">
+                <mat-icon class="edit-mat-icon">edit</mat-icon>
+                </button></td>
+            <td data-cy="project-name">{{ selectedImage.old_name }}</td>
+            </tr>
+            <tr>
+            <td data-cy="project-description-lable" class="fixed-names-row-size">Notizen:  <button data-cy="project-ditails-button-discription-edit" class="edit-button" (click)="editNotes(selectedImage)" mat-raised-button color="accent">
+                <mat-icon class="edit-mat-icon">edit</mat-icon>
+                </button>
+            </td>
+            <td data-cy="project-description">Notizen werden noch nicht unterstützt!</td>
+            </tr>
+            <tr>
+            <td data-cy="project-AImodel-lable" class="fixed-names-row-size">Erstellt:</td>
+            <td data-cy="project-Aimodel">{{ selectedImage.created_at }}</td>
+            </tr>
+            <tr>
+                <td data-cy="project-AImodel-lable" class="fixed-names-row-size">Updated:</td>
+                <td data-cy="project-Aimodel">{{ selectedImage.updated_at }}</td>
+            </tr>
+        </table>
+        </div>
+</div>
+<div data-cy="Image-details-project-not-selecte" *ngIf="!selectedProject">
+    <h1>Wähle bitte ein Projekt aus.</h1>
+</div>
