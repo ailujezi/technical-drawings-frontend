@@ -1,6 +1,6 @@
 <h2 class="marg">Neues Projekt</h2>
 <hr class="hr-context">
-<form class="create-project-form" data-cy="create-project-form" id="create-project-form" (ngSubmit)="onSubmit()">
+<form class="create-project-form" data-cy="create-project-form" id="create-project-form" (ngSubmit)="onSubmit()" #projectForm="ngForm">
   <mat-form-field>
     <mat-label>Projektname</mat-label>
     <input data-cy="create-project-name" id="create-project-name" matInput [(ngModel)]="project.name" name="name" required>
@@ -20,5 +20,5 @@
     </mat-select>
   </mat-form-field>
 
-  <button class="marg marg-bottom button marg-top" mat-raised-button color="primary" type="submit">Projekt erstellen</button>
+  <button class="marg marg-bottom button marg-top" mat-raised-button color="primary" type="submit" [disabled]="!projectForm.valid">Projekt erstellen</button>
 </form>
