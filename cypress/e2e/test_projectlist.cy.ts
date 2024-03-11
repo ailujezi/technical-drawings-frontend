@@ -24,9 +24,10 @@ describe('projectlist tests', () => {
     cy.get('[data-cy="create-project-name"]').type('Test');
     cy.get('[data-cy="create-project-description"]').click();
     cy.get('[data-cy="create-project-description"]').type('Test Beschreibung');
-    cy.get('.mat-mdc-select-trigger').click();
+    cy.get('[data-cy="create-project-select"]').click();
     cy.get('.mat-mdc-option-active > .mdc-list-item__primary-text').click();
-    cy.get('[data-cy="create-project-form"] > .mdc-button > .mdc-button__label').click();
+    cy.get('[data-cy="create-project-description"]').click();
+    cy.get('[data-cy="create-project-save-button"]').click();
     cy.get('[data-cy="projectlist-project-description"]').should('have.text', 'Test Beschreibung ');
     /* ==== End Cypress Studio ==== */
   });

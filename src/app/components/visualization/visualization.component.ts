@@ -219,15 +219,27 @@ export class VisualizationComponent implements OnInit, OnDestroy {
   }
 
   downloadImg(image: Image) {
-    this.http.get(image.image_url, { responseType: 'blob' }).subscribe(blob => {
-      const a = document.createElement('a');
-      const objectUrl = URL.createObjectURL(blob);
+    if(this.responseData) {
+      let results_url: string = ''; 
 
-      a.href = objectUrl;
-      a.download = image.old_name;
-      a.click();
+      for (let i = 0; i < this.responseData.length; i++) {
+        if (this.responseData[i].image_id == image.id) {
+          results_url = this.responseData[i].text_recognition_image_url;
+        }
+      }
+      
+      if (results_url != '') {
+        this.http.get(results_url, { responseType: 'blob' }).subscribe(blob => {
+          const a = document.createElement('a');
+          const objectUrl = URL.createObjectURL(blob);
 
-      URL.revokeObjectURL(objectUrl);
-    });
+          a.href = objectUrl;
+          a.download = image.old_name;
+          a.click();
+
+          URL.revokeObjectURL(objectUrl);
+        });
+      }
+    }
   }
 }

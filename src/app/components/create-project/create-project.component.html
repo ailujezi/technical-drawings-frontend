@@ -14,11 +14,11 @@
   <mat-form-field>
     <mat-label>AI-Modell</mat-label>
     <mat-select data-cy="create-project-select" id="create-project-select" color="primary" [(ngModel)]="project.ai_model_id" name="ai_model_id" required="">
-      <mat-option id="create-project-option" *ngFor="let model of aiModels" [value]="model.id" matTooltip="{{model.description}}">
+      <mat-option data-cy="create-project-option" id="create-project-option" *ngFor="let model of aiModels" [value]="model.id" matTooltip="{{model.description}}">
         {{model.name}}
       </mat-option>
     </mat-select>
   </mat-form-field>
 
-  <button class="marg marg-bottom button marg-top" mat-raised-button color="primary" type="submit" [disabled]="!projectForm.valid">Projekt erstellen</button>
+  <button data-cy="create-project-save-button" class="marg marg-bottom button marg-top" mat-raised-button color="primary" type="submit" [disabled]="!projectForm.valid">Projekt erstellen</button>
 </form>

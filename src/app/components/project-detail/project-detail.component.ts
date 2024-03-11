@@ -189,6 +189,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy{
                   this.informationExchangeService.removeEntry(currentProjectId);
                   this.informationExchangeService.executeFunction.emit();
                   console.log('Visualization Completed');
+                  this.projectService.loadProjects().subscribe();
                 }
                 else {
                 }
@@ -222,6 +223,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy{
                   this.informationExchangeService.removeEntry(currentProjectId);
                   this.informationExchangeService.executeFunction.emit();
                   console.log('Visualization Completed');
+                  this.projectService.loadProjects().subscribe();
                 }
                 else {
                 }

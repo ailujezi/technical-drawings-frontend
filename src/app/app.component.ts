@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet, Router } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
+import { InformationExchangeService } from './services/information-exchange.service';
 
 import { AuthService } from './services/auth.service';
 
@@ -17,7 +18,7 @@ import { AuthService } from './services/auth.service';
 export class AppComponent implements OnInit, OnDestroy {
   private refreshSubscription!: Subscription;
 
-  constructor(private router: Router,private authService: AuthService) {
+  constructor(private router: Router,private authService: AuthService, private informationExchangeService: InformationExchangeService) {
   }
 
   ngOnInit() {
@@ -32,7 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
           sessionStorage.setItem('accessToken', response.access);
         },
         error => {
-
+          this.informationExchangeService.removeAllEntries();
           console.error(error + " (AppComponent)");
           this.router.navigate(['/login']);
         }

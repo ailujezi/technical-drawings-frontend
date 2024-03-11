@@ -10,7 +10,7 @@
       </tr>
       <tr *ngIf="selectedProject.description!=''">
         <td data-cy="project-description-lable" class="fixed-names-row-size">
-          <button data-cy="project-ditails-button-discription-edit" class="edit-button" aria-label="Clear" (click)="editDescription(selectedProject)" mat-icon-button color="accent">
+          <button data-cy="project-details-button-discription-edit" class="edit-button" aria-label="Clear" (click)="editDescription(selectedProject)" mat-icon-button color="accent">
             <mat-icon >edit</mat-icon>
             </button>Beschreibung:  </td>
         <td data-cy="project-description">{{ selectedProject.description }}</td>
@@ -21,12 +21,12 @@
       </tr>
       <tr>
         <td data-cy="project-isvisualized-lable" class="fixed-names-row-size visualized-lable">Visualized:</td>
-        <td data-cy="project-isvisualized-no" *ngIf="!isProjectVisualized(selectedProject) && !isProjectPartlyVisualized(selectedProject)">Nicht visualisiert <button data-cy="project-visualize-button-yes" class="vis-button" (click)="startVisualization()" mat-raised-button color="accent">
+        <td data-cy="project-isvisualized-no" *ngIf="!isProjectVisualized(selectedProject) && !isProjectPartlyVisualized(selectedProject)">Nicht visualisiert <button data-cy="project-visualize-button-no" class="vis-button" (click)="startVisualization()" mat-raised-button color="accent">
           <mat-icon>autorenew</mat-icon>
           Visualisieren
           </button>
         </td>
-        <td data-cy="project-isvisualized-yes" *ngIf="isProjectVisualized(selectedProject) && !isProjectPartlyVisualized(selectedProject)">Visualisiert <button data-cy="project-visualize-button-no" class="vis-button" (click)="startVisualization()" mat-raised-button color="accent">
+        <td data-cy="project-isvisualized-yes" *ngIf="isProjectVisualized(selectedProject) && !isProjectPartlyVisualized(selectedProject)">Visualisiert <button data-cy="project-visualize-button-yes" class="vis-button" (click)="startVisualization()" mat-raised-button color="accent">
           <mat-icon>autorenew</mat-icon>
           Visualisieren
           </button>

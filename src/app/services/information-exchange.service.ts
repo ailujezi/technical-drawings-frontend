@@ -27,4 +27,8 @@ export class InformationExchangeService {
   getDictionary() {
     return this.dictionary;
   }
+
+  removeAllEntries() {
+    this.dictionary = {};
+  }
 }
