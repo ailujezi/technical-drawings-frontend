@@ -12,7 +12,7 @@
                 <label data-cy="visualization-selected-img-overlay" [class.selected-overlay]="isSelected(overlay)" id="overlays"  *ngFor="let overlay of overlays" [ngStyle]="getOverlayStyle(imageElement, overlay)" (click)="selectOverlay(overlay)">
                 </label>
             </div>
-            <div class="overlays-container">
+            <div class="overlays-container" *ngIf="selectedImage">
                 <mat-list data-cy="visualization-overlay-list"class="overlays-mat-list">
                     <mat-list-item data-cy="visualization-overlay-item" [class.selected-overlay-list]="isSelected(overlay)" class="mat-list-item" *ngFor="let overlay of overlays" (click)="selectOverlay(overlay)">
                         <span data-cy="visualization-overlay-text" matListItemTitle>{{ overlay.text }}</span>

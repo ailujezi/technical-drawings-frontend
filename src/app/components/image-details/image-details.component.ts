@@ -17,6 +17,7 @@ import { Project } from '../../interfaces/project';
 import { ProjectService } from '../../services/project.service';
 import { EditImageNotesComponent } from '../edit-image-notes/edit-image-notes.component';
 import { EditImageNameComponent } from '../edit-image-name/edit-image-name.component';
+import { InformationExchangeService } from '../../services/information-exchange.service';
 
 
 @Component({
@@ -28,7 +29,15 @@ import { EditImageNameComponent } from '../edit-image-name/edit-image-name.compo
 })
 export class ImageDetailsComponent implements OnInit, OnDestroy  {
 
-  constructor( private dialog: MatDialog, private selectedProjectService: SelectedProjectService, private projectService: ProjectService) { }
+  private loadImagesSubscription: Subscription;
+
+
+  constructor( private dialog: MatDialog, private selectedProjectService: SelectedProjectService, private informationExchangeService: InformationExchangeService, private projectService: ProjectService) {
+    this.loadImagesSubscription = this.informationExchangeService.executeFunction.subscribe(() => {
+      this.images = [];
+      this.loadImages();
+    }); 
+   }
 
   imageDetails = {name: "", notes: ""}
   images: Image[] = [];
@@ -67,6 +76,7 @@ export class ImageDetailsComponent implements OnInit, OnDestroy  {
     } else {
       console.error('Selected project is undefined (canvas)');
     }
+    this.selectedImage = undefined;
   }
 
   selectImage(image: Image) {

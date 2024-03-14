@@ -117,6 +117,7 @@ export class VisualizationComponent implements OnInit, OnDestroy {
     } else {
       console.error('Selected project is undefined (loadImages)');
     }
+    this.selectedImage = undefined;
     this.reloadGallery;
   }
 

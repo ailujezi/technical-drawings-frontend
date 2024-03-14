@@ -31,4 +31,11 @@ export class InformationExchangeService {
   removeAllEntries() {
     this.dictionary = {};
   }
+
+  private tabIndexSource = new BehaviorSubject<number>(0);
+  currentTab = this.tabIndexSource.asObservable();
+
+  changeTab(index: number) {
+    this.tabIndexSource.next(index);
+  }
 }

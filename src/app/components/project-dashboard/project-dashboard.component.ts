@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Project } from '../../interfaces/project';
 import { SelectedProjectService } from '../../services/selected-project.service';
 import { AiModel } from '../../interfaces/ai_model';
+import { InformationExchangeService } from '../../services/information-exchange.service';
 
 import { FormsModule } from '@angular/forms';
 
@@ -29,7 +30,7 @@ import { of } from 'rxjs'
 export class ProjectDashboardComponent {
   projects: Project[] = [];
 
-  constructor(private selectedProjectService: SelectedProjectService, private projectService: ProjectService, public dialogRef: MatDialogRef<ProjectDashboardComponent>, @Inject(MAT_DIALOG_DATA) public data: any,  private snackBar: MatSnackBar) {}
+  constructor(private informationExchangeService: InformationExchangeService, private selectedProjectService: SelectedProjectService, private projectService: ProjectService, public dialogRef: MatDialogRef<ProjectDashboardComponent>, @Inject(MAT_DIALOG_DATA) public data: any,  private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.projectService.getProjects().pipe(
@@ -81,6 +82,7 @@ export class ProjectDashboardComponent {
 
   goToProject(project: Project){
     this.selectedProjectService.setSelectedProject(project, true);
+    this.informationExchangeService.changeTab(0);
     this.closeDialog();
   }
 }

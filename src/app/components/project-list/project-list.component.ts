@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, Input, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { Project } from '../../interfaces/project';
 import { ProjectService } from '../../services/project.service';
 import { CommonModule } from '@angular/common';
@@ -27,7 +28,10 @@ import { of } from 'rxjs'
   templateUrl: './project-list.component.html',
   styleUrl: './project-list.component.scss'
 })
-export class ProjectListComponent implements OnInit{
+export class ProjectListComponent implements OnInit, OnDestroy{
+
+  private selectedProjectSubscription = new Subscription();
+
   
   constructor(public dialog: MatDialog, private projectService: ProjectService, private informationExchangeService: InformationExchangeService, private selectedProjectService: SelectedProjectService) {
   }
@@ -47,6 +51,9 @@ export class ProjectListComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.selectedProjectSubscription = this.selectedProjectService.getSelectedProject().subscribe(project => {
+      this.selectedProject = project;
+    });
     this.projectService.getProjectsObservable().subscribe(projects => {
       this.displayProjects = projects;
       this.allProjects = projects;
@@ -54,6 +61,10 @@ export class ProjectListComponent implements OnInit{
     });
 
     this.loadProjects();
+  }
+
+  ngOnDestroy() {
+    this.selectedProjectSubscription.unsubscribe();
   }
 
   setSelcetedProjectNew() {
