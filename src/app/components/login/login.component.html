@@ -2,12 +2,12 @@
     <div class="login-container" style="text-align: center;">
         <form data-cy="login-form" id="login-form" (ngSubmit)="onLogin()">
             <div>
-                <label data-cy="login-name-lable" id="login-username">Username:</label>
+                <label data-cy="login-name-lable" id="login-username">Benutzername:</label>
                 <br>
                 <input data-cy="login-name-input" type="text" [(ngModel)]="loginData.username" name="username" required>
             </div>
             <div>
-                <label data-cy="login-password-lable" id="login-password">Password:</label>
+                <label data-cy="login-password-lable" id="login-password">Passwort:</label>
                 <br>
                 <input data-cy="login-password-input" type="password" [(ngModel)]="loginData.password" name="password" required>
             </div>

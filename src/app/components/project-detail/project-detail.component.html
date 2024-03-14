@@ -20,7 +20,7 @@
         <td data-cy="project-Aimodel">{{ aiModelName }}</td>
       </tr>
       <tr>
-        <td data-cy="project-isvisualized-lable" class="fixed-names-row-size visualized-lable">Visualized:</td>
+        <td data-cy="project-isvisualized-lable" class="fixed-names-row-size visualized-lable">Visualisierung:</td>
         <td data-cy="project-isvisualized-no" *ngIf="!isProjectVisualized(selectedProject) && !isProjectPartlyVisualized(selectedProject)">Nicht visualisiert <button data-cy="project-visualize-button-no" class="vis-button" (click)="startVisualization()" mat-raised-button color="accent">
           <mat-icon>autorenew</mat-icon>
           Visualisieren

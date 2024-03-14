@@ -1,7 +1,7 @@
 <button data-cy="projectlist-create-project-button" id="create-project" class="marg" mat-raised-button color="primary" (click)="openCreateProjectDialog()">Neues Projekt</button>
 
 <mat-form-field data-cy="projectlist-searchbar-form" class="search-form-field">
-  <mat-label data-cy="projectlist-searchbar-lable">Search</mat-label>
+  <mat-label data-cy="projectlist-searchbar-lable">Suchen</mat-label>
   <input data-cy="projectlist-searchbar-input" matInput type="text" (keyup)="searchProjects(value)" [(ngModel)]="value">
   @if (value) {
     <button data-cy="projectlist-searchbar-button-search" matSuffix mat-icon-button aria-label="Clear" (click)="searchProjectsCancle()" class="search-button-clear">
