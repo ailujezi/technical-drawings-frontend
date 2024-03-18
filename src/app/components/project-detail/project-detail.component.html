@@ -5,7 +5,7 @@
         <td data-cy="project-name-lable" class="fixed-names-row-size">
           <button data-cy="project-details-button-name-edit" class="edit-button" aria-label="Clear" (click)="editName(selectedProject)" mat-icon-button color="accent">
             <mat-icon>edit</mat-icon>
-            </button>Projekt Name: </td>
+            </button>Projektname: </td>
         <td data-cy="project-name">{{ selectedProject.name }}</td>
       </tr>
       <tr *ngIf="selectedProject.description!=''">
@@ -52,7 +52,7 @@
     <input data-cy="project-img-upload-input" type="file" (change)="onFilesSelected($event)" multiple accept="image/*">
     <button data-cy="project-img-upload-button" mat-raised-button color="accent" type="submit">
       <mat-icon>cloud_upload</mat-icon>
-      Upload
+      Bild(er) hochladen
     </button>
   </form>
 </div>

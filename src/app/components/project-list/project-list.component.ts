@@ -118,7 +118,8 @@ export class ProjectListComponent implements OnInit, OnDestroy{
     this.projectService.loadProjects().subscribe();
   }
 
-  openDialog(project: Project): void {
+  openDialog(project: Project, event: MouseEvent): void {
+    event.stopPropagation();
     const dialogRef = this.dialog.open(DeleteProjectComponent, {
       width: '250px',
     });
@@ -140,6 +141,10 @@ export class ProjectListComponent implements OnInit, OnDestroy{
           tap(response => {
             this.displayProjects = response;
             this.allProjects = response;
+            if (this.selectedProject == project){
+              this.selectedProjectService.setSelectedProject(project, false);
+            }
+
           }),
           catchError(error => {
             console.error("Could not get projects", error);

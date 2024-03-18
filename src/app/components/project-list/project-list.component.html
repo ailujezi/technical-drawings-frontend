@@ -14,7 +14,7 @@
 <div class="project-list-container">
   <mat-list data-cy="projectlist-list" class="project-mat-list">
     <mat-list-item data-cy="projectlist-list-item" [attr.id]="project.name" [class.selected-project]="isSelected(project)" class="mat-list-item" *ngFor="let project of displayProjects" (click)="selectProject(project)">
-      <div data-cy="projectlist-project-delete" class="delete-icon" (click)="openDialog(project)">X</div>
+      <div data-cy="projectlist-project-delete" class="delete-icon" (click)="openDialog(project, $event)">X</div>
       <span data-cy="projectlist-project-name" matListItemTitle>{{ project.name }}</span>
       <span data-cy="projectlist-project-description" matListItemLine style="white-space: nowrap;">{{ project.description }}
         <mat-spinner *ngIf="isVisualized(project)" diameter="20" class="list-spinner"></mat-spinner>

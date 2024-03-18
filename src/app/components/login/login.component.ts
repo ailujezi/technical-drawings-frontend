@@ -5,7 +5,7 @@ import { AuthService } from '../../services/auth.service';
 
 import {MatGridListModule} from '@angular/material/grid-list'; 
 import { MatButtonModule } from '@angular/material/button';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Router } from '@angular/router';
 
@@ -22,7 +22,7 @@ import { of } from 'rxjs'
 export class LoginComponent {
   loginData = { username: '', password: '' };
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService, private snackBar: MatSnackBar) {}
 
   onLogin(): void {
     this.authService.login(this.loginData).pipe(
@@ -33,6 +33,9 @@ export class LoginComponent {
         this.router.navigate(['/main']);
       }),
       catchError(error => {
+        this.snackBar.open('Benutzername oder Passwort ist falsch.', 'Schließen', {
+          duration: 3000
+        });
         console.error("No User with that data", error);
         return of(null);
       })

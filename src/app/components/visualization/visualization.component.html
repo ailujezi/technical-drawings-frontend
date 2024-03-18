@@ -13,6 +13,7 @@
                 </label>
             </div>
             <div class="overlays-container" *ngIf="selectedImage">
+                <h2>Ergebnisse:</h2>
                 <mat-list data-cy="visualization-overlay-list"class="overlays-mat-list">
                     <mat-list-item data-cy="visualization-overlay-item" [class.selected-overlay-list]="isSelected(overlay)" class="mat-list-item" *ngFor="let overlay of overlays" (click)="selectOverlay(overlay)">
                         <span data-cy="visualization-overlay-text" matListItemTitle>{{ overlay.text }}</span>
