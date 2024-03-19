@@ -71,8 +71,10 @@ export class ProjectListComponent implements OnInit, OnDestroy{
           this.selectedProjectService.setSelectedProject(this.allProjects[i], true);
           return;
         }
-        this.selectedProjectService.setSelectedProject(this.selectedProject, false);
       }
+    }
+    if (this.selectedProject) {
+      this.selectedProjectService.setSelectedProject(this.selectedProject, false);
     }
   }
 
@@ -138,9 +140,6 @@ export class ProjectListComponent implements OnInit, OnDestroy{
           tap(response => {
             this.displayProjects = response;
             this.allProjects = response;
-            if (this.selectedProject == project){
-              this.selectedProjectService.setSelectedProject(project, false);
-            }
 
           }),
           catchError(error => {
@@ -151,6 +150,9 @@ export class ProjectListComponent implements OnInit, OnDestroy{
       },
       error => console.error(error + "delete project")
     );
+    if (this.selectedProject == project){
+      this.selectedProjectService.setSelectedProject(project, false);
+    }
   }
 
   searchProjects(text: string) {
@@ -167,15 +169,6 @@ export class ProjectListComponent implements OnInit, OnDestroy{
 
   searchProjectsCancle() {
     this.value = "";
-    this.projectService.getProjects().pipe(
-      tap(response => {
-       this.displayProjects = response;
-
-      }),
-      catchError(error => {
-        console.error("Could not get projects", error);
-        return of(null);
-      })
-    ).subscribe();
+    this.displayProjects = this.allProjects;
   }
 }

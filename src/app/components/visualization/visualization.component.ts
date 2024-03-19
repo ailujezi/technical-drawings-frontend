@@ -78,25 +78,12 @@ export class VisualizationComponent implements OnInit, OnDestroy {
     this.selectedProjectSubscription = this.selectedProjectService.getSelectedProject().subscribe(project => {
       this.selectedProject = project;
       this.loadImages();
-      this.selectedImage = undefined;
       this.overlays = [];
     });
 
     this.loadImages();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['selectedProject']) {
-      const change = changes['selectedProject'];
-      if (change && !change.firstChange) {
-        const newProject = change.currentValue as Project;
-        this.selectedImage = undefined;
-        this.images = [];
-        this.overlays = [];
-        this.loadImages();
-      }
-    }
-  }
 
   ngOnDestroy() {
     this.selectedProjectSubscription.unsubscribe();
@@ -109,7 +96,6 @@ export class VisualizationComponent implements OnInit, OnDestroy {
       this.projectService.getImages(this.selectedProject.id).pipe(
         tap(data => {
           this.images = data;
-          console.log('Daten erfolgreich geladen (visualization)');
         }),
         catchError(error => {
           // Fehlerbehandlung

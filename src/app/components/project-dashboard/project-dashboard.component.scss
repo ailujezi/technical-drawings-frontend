@@ -22,4 +22,6 @@ table {
 
 .table-container {
     margin: 50px;
+    overflow-y: auto;
+    max-height: 400px;
 }
