@@ -42,11 +42,8 @@ export class ProjectListComponent implements OnInit, OnDestroy{
   selectedProject?: Project;
   projectBeingVisualized?: Project;
 
-  @Output() projectSelected = new EventEmitter<Project>();
 
-  //If selected project changes emit to parent (mainview)
   selectProject(project: Project): void {
-    this.selectedProject = project;
     this.selectedProjectService.setSelectedProject(project, true);
   }
 
@@ -95,10 +92,10 @@ export class ProjectListComponent implements OnInit, OnDestroy{
     const dialogRef = this.dialog.open(CreateProjectComponent, {
       width: '300px',
       data: {}
-  });
+    });
 
 
-  dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(result => {
     this.projectService.getProjects().pipe(
       tap(response => {
         this.displayProjects = response;

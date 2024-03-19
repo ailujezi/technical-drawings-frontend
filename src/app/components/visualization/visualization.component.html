@@ -1,7 +1,7 @@
 <div *ngIf="selectedProject" class="visualization-container">
     <div class="gallery-container">
         <div data-cy="visualization-gallery" class="gallery">
-            <div *ngFor="let image of images" class="thumbnail" (click)="selectImage(image)">
+            <div *ngFor="let image of images" class="thumbnail" (click)="selectImage(image)" [class.selected-image]="isSelectedImage(image)">
                 <img data-cy="visualization-gallery-img" *ngIf="image.has_result" id="visualization-gallery" [attr.src]="image.image_url | secure | async" [alt]="image.name"/>
                 <div data-cy="visualization-gallery-img-download" *ngIf="image.has_result" class="download-icon" (click)="downloadImg(image)"><mat-icon>download</mat-icon></div>
             </div>

@@ -15,7 +15,6 @@ app-project-list {
 .main-content {
     flex-grow: 1;
     height: 100%;
-    padding-left: 30px;
 }
 
 .main-content.full-width {
@@ -27,4 +26,12 @@ app-project-list {
     display: flex;
     height: calc(100% - 60px);
     width: 100%; 
+}
+
+@media (max-width:600px) {
+    app-project-list {
+        flex: 0 0 50%;
+        max-width: 50%;
+        height: 100%;    
+    }
 }

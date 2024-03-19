@@ -271,7 +271,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy{
     dialogRef.afterClosed().subscribe(result => {
       console.log('Das Dialogfenster wurde geschlossen');
       this.projectService.loadProjects().subscribe();
-      this.selectedProject = this.selectedProject;
     });
   }
 
@@ -286,7 +285,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy{
     dialogRef.afterClosed().subscribe(result => {
       console.log('Das Dialogfenster wurde geschlossen');
       this.projectService.loadProjects().subscribe();
-      this.selectedProject = this.selectedProject;
     });
   }
 

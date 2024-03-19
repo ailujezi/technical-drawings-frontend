@@ -116,3 +116,21 @@ img {
     height: 30px;
     width: 28px;
 }
+
+.space-left {
+    margin-left: 10px;
+}
+
+.selected-image {
+    border: 2px solid gray;
+
+}
+
+@media (max-width:800px) { 
+    .gallery div {
+        flex: 0 0 20%; 
+        box-sizing: border-box;
+        padding-right: 5px;
+        overflow: hidden;
+    }
+}

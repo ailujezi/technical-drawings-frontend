@@ -68,6 +68,12 @@ export class VisualizationComponent implements OnInit, OnDestroy {
     return false;
   }
 
+  isSelectedImage(image: Image) {
+    if (this.selectedImage)
+      return this.selectedImage.id == image.id;
+    return false;
+  }
+
   ngOnInit() {
     this.selectedProjectSubscription = this.selectedProjectService.getSelectedProject().subscribe(project => {
       this.selectedProject = project;
